@@ -91,8 +91,8 @@ export default function Header() {
 
   return (
     <header className="w-full sticky top-0 z-50 shadow-md">
-      {/* 🔴 TOP BAR - MAGICBRICKS CRIMSON RED (#d8232a) */}
-      <div className="bg-[#d8232a] text-white py-2.5 px-4 sm:px-6 lg:px-8">
+      {/* 🟣 TOP BAR - PURPLE TO PINK GRADIENT */}
+      <div className="bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white py-2.5 px-4 sm:px-6 lg:px-8 shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* LEFT: Logo + City Selector */}
           <div className="flex items-center gap-3 sm:gap-6">

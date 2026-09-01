@@ -7,10 +7,10 @@ import { ArrowRight } from 'lucide-react';
 export default function PropertyForEveryone() {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[70px] pb-0">
-      {/* Title with red underline accent */}
+      {/* Title with purple underline accent */}
       <div className="mb-6 sm:mb-8">
         <h2 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tight">
-          <span className="border-b-4 border-[#d8232a] pb-1 inline-block">We&apos;ve</span> got properties for everyone
+          <span className="border-b-4 border-[#9333ea] pb-1 inline-block">We&apos;ve</span> got properties for everyone
         </h2>
       </div>
 
@@ -58,14 +58,14 @@ export default function PropertyForEveryone() {
         </Link>
 
         {/* CARD 3: CAMPAIGN WIN VOUCHERS BANNER */}
-        <div className="relative h-48 rounded-2xl overflow-hidden shadow-md border border-amber-200/60 bg-gradient-to-br from-[#e8d5c4] via-[#f5e6d8] to-[#dfcbb8] p-5 flex items-center justify-between transition-all hover:shadow-2xl">
+        <div className="relative h-48 rounded-2xl overflow-hidden shadow-md border border-purple-200/60 bg-gradient-to-br from-[#f3e8ff] via-[#fae8ff] to-[#fce7f3] p-5 flex items-center justify-between transition-all hover:shadow-2xl">
           <div className="space-y-2 max-w-[60%] z-10">
             <p className="text-xs sm:text-sm font-bold text-slate-800 leading-snug">
-              Share your <span className="font-extrabold text-[#d8232a]">#GetPlotLifeBadlo</span> story and <span className="font-black">WIN</span> vouchers worth <span className="font-black text-slate-900">₹5000</span>
+              Share your <span className="font-extrabold text-[#9333ea]">#GetPlotLifeBadlo</span> story and <span className="font-black">WIN</span> vouchers worth <span className="font-black text-slate-900">₹5000</span>
             </p>
             <Link
               href="/contact"
-              className="inline-block bg-[#d8232a] hover:bg-red-700 text-white font-extrabold text-xs px-4 py-2 rounded-full shadow-md transition-all active:scale-95"
+              className="inline-block bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white font-extrabold text-xs px-4 py-2 rounded-full shadow-md transition-all active:scale-95"
             >
               Click Here
             </Link>

@@ -170,7 +170,7 @@ export default async function HomePage() {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[70px] pb-0 space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-100 pb-4">
             <div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-600">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-[#9333ea]">
                 REAL ESTATE INSIGHTS
               </span>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
@@ -179,7 +179,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/blog"
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-slate-700 hover:text-indigo-600 transition-colors group"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-slate-700 hover:text-[#9333ea] transition-colors group"
             >
               <span>View All Articles</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

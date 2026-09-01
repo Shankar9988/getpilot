@@ -113,7 +113,7 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
         {/* CENTER TAGLINE HEADER */}
         <div className="text-center">
           <h1 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-800 tracking-tight">
-            Start your <span className="font-extrabold text-[#d8232a]">#PataBadloLifeBadlo</span> Journey
+            Start your <span className="font-extrabold text-[#9333ea]">#PataBadloLifeBadlo</span> Journey
           </h1>
         </div>
 
@@ -128,7 +128,7 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
                 onClick={() => setActiveTab('buy')}
                 className={`pb-2 transition-all relative whitespace-nowrap ${
                   activeTab === 'buy'
-                    ? 'text-[#d8232a] font-extrabold border-b-2 border-[#d8232a]'
+                    ? 'text-[#9333ea] font-extrabold border-b-2 border-[#9333ea]'
                     : 'hover:text-slate-900'
                 }`}
               >
@@ -140,7 +140,7 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
                 onClick={() => setActiveTab('rent')}
                 className={`pb-2 transition-all relative whitespace-nowrap ${
                   activeTab === 'rent'
-                    ? 'text-[#d8232a] font-extrabold border-b-2 border-[#d8232a]'
+                    ? 'text-[#9333ea] font-extrabold border-b-2 border-[#9333ea]'
                     : 'hover:text-slate-900'
                 }`}
               >
@@ -152,7 +152,7 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
                 onClick={() => setActiveTab('projects')}
                 className={`pb-2 transition-all relative whitespace-nowrap ${
                   activeTab === 'projects'
-                    ? 'text-[#d8232a] font-extrabold border-b-2 border-[#d8232a]'
+                    ? 'text-[#9333ea] font-extrabold border-b-2 border-[#9333ea]'
                     : 'hover:text-slate-900'
                 }`}
               >
@@ -164,7 +164,7 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
                 onClick={() => setActiveTab('pg')}
                 className={`pb-2 transition-all relative whitespace-nowrap ${
                   activeTab === 'pg'
-                    ? 'text-[#d8232a] font-extrabold border-b-2 border-[#d8232a]'
+                    ? 'text-[#9333ea] font-extrabold border-b-2 border-[#9333ea]'
                     : 'hover:text-slate-900'
                 }`}
               >
@@ -176,7 +176,7 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
                 onClick={() => setActiveTab('plot')}
                 className={`pb-2 transition-all relative whitespace-nowrap ${
                   activeTab === 'plot'
-                    ? 'text-[#d8232a] font-extrabold border-b-2 border-[#d8232a]'
+                    ? 'text-[#9333ea] font-extrabold border-b-2 border-[#9333ea]'
                     : 'hover:text-slate-900'
                 }`}
               >
@@ -188,7 +188,7 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
                 onClick={() => setActiveTab('commercial')}
                 className={`pb-2 transition-all relative whitespace-nowrap ${
                   activeTab === 'commercial'
-                    ? 'text-[#d8232a] font-extrabold border-b-2 border-[#d8232a]'
+                    ? 'text-[#9333ea] font-extrabold border-b-2 border-[#9333ea]'
                     : 'hover:text-slate-900'
                 }`}
               >
@@ -197,7 +197,7 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
 
               <Link
                 href="/post-property"
-                className="pb-2 text-slate-500 hover:text-[#d8232a] transition-colors whitespace-nowrap font-medium text-xs hidden sm:inline-block"
+                className="pb-2 text-slate-500 hover:text-[#9333ea] transition-colors whitespace-nowrap font-medium text-xs hidden sm:inline-block"
               >
                 Post Free Property Ad
               </Link>
@@ -206,12 +206,12 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
             {/* WHITE ROUNDED PILL SEARCH BAR */}
             <form
               onSubmit={handleSearchSubmit}
-              className="bg-white rounded-3xl lg:rounded-full p-2.5 sm:p-3 shadow-xl border border-slate-200/90 flex flex-col md:flex-row items-center gap-2 sm:gap-3 transition-all focus-within:ring-2 focus-within:ring-red-500/20"
+              className="bg-white rounded-3xl lg:rounded-full p-2.5 sm:p-3 shadow-xl border border-slate-200/90 flex flex-col md:flex-row items-center gap-2 sm:gap-3 transition-all focus-within:ring-2 focus-within:ring-purple-500/20"
             >
               {/* 1. Location Input + City Pill */}
               <div className="flex-1 w-full flex items-center gap-2 px-3 py-1.5 border-b md:border-b-0 md:border-r border-slate-200">
-                <MapPin className="w-4 h-4 text-[#d8232a] shrink-0" />
-                <span className="bg-red-50 text-[#d8232a] font-black text-xs px-2.5 py-1 rounded-full shrink-0 border border-red-100">
+                <MapPin className="w-4 h-4 text-[#9333ea] shrink-0" />
+                <span className="bg-purple-50 text-[#9333ea] font-black text-xs px-2.5 py-1 rounded-full shrink-0 border border-purple-100">
                   {selectedCity}
                 </span>
                 <input
@@ -225,7 +225,7 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
 
               {/* 2. Property Type Select */}
               <div className="w-full md:w-auto flex items-center gap-1.5 px-3 py-1.5 border-b md:border-b-0 md:border-r border-slate-200 shrink-0">
-                <Home className="w-4 h-4 text-[#d8232a] shrink-0" />
+                <Home className="w-4 h-4 text-[#9333ea] shrink-0" />
                 <select
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value)}
@@ -240,7 +240,7 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
 
               {/* 3. Budget Select */}
               <div className="w-full md:w-auto flex items-center gap-1.5 px-3 py-1.5 shrink-0">
-                <IndianRupee className="w-4 h-4 text-[#d8232a] shrink-0" />
+                <IndianRupee className="w-4 h-4 text-[#9333ea] shrink-0" />
                 <select
                   value={selectedBudget}
                   onChange={(e) => setSelectedBudget(e.target.value)}
@@ -253,10 +253,10 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
                 </select>
               </div>
 
-              {/* 4. Crimson Red Search CTA Button */}
+              {/* 4. Purple-Pink Gradient Search CTA Button */}
               <button
                 type="submit"
-                className="w-full md:w-auto bg-[#d8232a] hover:bg-red-700 text-white font-extrabold px-7 py-3 rounded-full flex items-center justify-center gap-2 text-sm shadow-md shadow-red-600/30 transition-all hover:scale-[1.02] active:scale-95 shrink-0"
+                className="w-full md:w-auto bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white font-extrabold px-7 py-3 rounded-full flex items-center justify-center gap-2 text-sm shadow-md shadow-purple-500/20 transition-all hover:scale-[1.02] active:scale-95 shrink-0"
               >
                 <Search className="w-4 h-4" />
                 <span>Search</span>

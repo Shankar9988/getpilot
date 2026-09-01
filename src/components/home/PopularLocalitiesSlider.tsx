@@ -175,7 +175,7 @@ export default function PopularLocalitiesSlider() {
 
                   {/* Cyan Pill Container */}
                   <div className="bg-[#e6f7f7] rounded-xl p-3 pt-6 text-center border border-teal-100">
-                    <span className="text-xs font-extrabold text-[#d8232a] group-hover:underline inline-flex items-center justify-center gap-1">
+                    <span className="text-xs font-extrabold text-[#9333ea] group-hover:underline inline-flex items-center justify-center gap-1">
                       <span>{loc.properties_count.toLocaleString()} Properties for Sale</span>
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </span>

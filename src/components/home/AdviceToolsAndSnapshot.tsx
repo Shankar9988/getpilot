@@ -36,7 +36,7 @@ export default function AdviceToolsAndSnapshot() {
       description: "Know how much you'll have to pay every month on your home loan",
       icon: Calculator,
       link: '/contact?tool=emi-calculator',
-      color: 'bg-red-50 text-[#d8232a]',
+      color: 'bg-purple-50 text-[#9333ea]',
     },
     {
       id: 2,
@@ -104,7 +104,7 @@ export default function AdviceToolsAndSnapshot() {
                     </div>
 
                     <div>
-                      <h3 className="text-base font-extrabold text-slate-900 group-hover:text-[#d8232a] transition-colors">
+                      <h3 className="text-base font-extrabold text-slate-900 group-hover:text-[#9333ea] transition-colors">
                         {tool.title}
                       </h3>
                       <p className="text-xs text-slate-500 font-medium leading-relaxed mt-1.5">
@@ -114,7 +114,7 @@ export default function AdviceToolsAndSnapshot() {
                   </div>
 
                   <div className="pt-2">
-                    <span className="text-xs font-extrabold text-[#d8232a] group-hover:underline flex items-center gap-1">
+                    <span className="text-xs font-extrabold text-[#9333ea] group-hover:underline flex items-center gap-1">
                       <span>View now</span>
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </span>
@@ -150,7 +150,7 @@ export default function AdviceToolsAndSnapshot() {
               <button
                 type="button"
                 onClick={() => setExpandedText(true)}
-                className="text-[#d8232a] font-bold hover:underline cursor-pointer ml-1"
+                className="text-[#9333ea] font-bold hover:underline cursor-pointer ml-1"
               >
                 Read more
               </button>
@@ -207,7 +207,7 @@ export default function AdviceToolsAndSnapshot() {
         <div className="bg-[#fffbeb] rounded-2xl p-6 sm:p-8 border border-amber-200/90 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
           <div className="space-y-1 text-center sm:text-left">
             <h3 className="text-xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              Post your Property for <span className="font-serif italic font-normal text-[#d8232a]">Free</span>
+              Post your Property for <span className="font-serif italic font-normal text-[#9333ea]">Free</span>
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 font-semibold">
               List it on GetPlot and get genuine high-intent buyers &amp; tenants
