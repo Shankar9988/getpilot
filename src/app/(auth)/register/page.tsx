@@ -65,13 +65,13 @@ export default function RegisterPage() {
       <div className="w-full max-w-lg bg-white rounded-3xl p-8 border border-slate-200/80 shadow-xl space-y-6">
         {/* Header */}
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center mx-auto shadow-md">
-            <Building2 className="w-6 h-6 text-emerald-400" />
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white flex items-center justify-center mx-auto shadow-md">
+            <Building2 className="w-6 h-6 text-white" />
           </div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-            Create Your Estatify Account
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+            Create Your <span className="text-[#9333ea]">GetPlot</span> Account
           </h1>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-500 font-medium">
             Join thousands of verified home buyers, owners, and registered RERA advisors.
           </p>
         </div>
@@ -82,9 +82,9 @@ export default function RegisterPage() {
             <label className="block text-xs font-bold text-slate-700 mb-1.5">I want to register as</label>
             <div className="grid grid-cols-2 gap-2">
               <label
-                className={`p-3 rounded-xl border text-center cursor-pointer text-xs font-bold transition-all ${
+                className={`p-3 rounded-xl border text-center cursor-pointer text-xs font-extrabold transition-all ${
                   selectedRole === 'user'
-                    ? 'border-emerald-600 bg-emerald-50 text-emerald-900'
+                    ? 'border-[#9333ea] bg-purple-50 text-[#9333ea] shadow-xs'
                     : 'border-slate-200 bg-slate-50 text-slate-700'
                 }`}
               >
@@ -98,9 +98,9 @@ export default function RegisterPage() {
               </label>
 
               <label
-                className={`p-3 rounded-xl border text-center cursor-pointer text-xs font-bold transition-all ${
+                className={`p-3 rounded-xl border text-center cursor-pointer text-xs font-extrabold transition-all ${
                   selectedRole === 'agent'
-                    ? 'border-emerald-600 bg-emerald-50 text-emerald-900'
+                    ? 'border-[#9333ea] bg-purple-50 text-[#9333ea] shadow-xs'
                     : 'border-slate-200 bg-slate-50 text-slate-700'
                 }`}
               >
@@ -221,16 +221,16 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-sm shadow-md transition-all active:scale-[0.99] disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white font-extrabold text-sm shadow-md shadow-purple-500/25 transition-all active:scale-[0.99] disabled:opacity-50 cursor-pointer"
           >
             <UserPlus className="w-4 h-4" />
             <span>{loading ? 'Creating Account...' : 'Complete Registration'}</span>
           </button>
         </form>
 
-        <div className="text-center text-xs text-slate-500">
+        <div className="text-center text-xs text-slate-500 font-medium">
           Already registered?{' '}
-          <Link href="/login" className="font-bold text-emerald-700 hover:underline">
+          <Link href="/login" className="font-bold text-[#9333ea] hover:underline">
             Log in here
           </Link>
         </div>

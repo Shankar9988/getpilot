@@ -22,6 +22,7 @@ function LoginForm() {
   const redirect = searchParams.get('redirect') || '/dashboard';
   const { login } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [activeRole, setActiveRole] = useState<'admin' | 'agent' | 'buyer' | null>('admin');
 
   const {
     register,
@@ -31,8 +32,8 @@ function LoginForm() {
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'demo.admin@estatify.com',
+      password: 'DemoAdmin@2026',
     },
   });
 
@@ -46,15 +47,16 @@ function LoginForm() {
   };
 
   const fillDemoAccount = (role: 'admin' | 'agent' | 'buyer') => {
+    setActiveRole(role);
     if (role === 'admin') {
-      setValue('email', 'admin@estatify.com');
-      setValue('password', 'password123');
+      setValue('email', 'demo.admin@estatify.com');
+      setValue('password', 'DemoAdmin@2026');
     } else if (role === 'agent') {
-      setValue('email', 'agent@estatify.com');
-      setValue('password', 'password123');
+      setValue('email', 'demo.user@estatify.com');
+      setValue('password', 'DemoUser@2026');
     } else {
-      setValue('email', 'buyer@estatify.com');
-      setValue('password', 'password123');
+      setValue('email', 'demo.user@estatify.com');
+      setValue('password', 'DemoUser@2026');
     }
   };
 
@@ -62,41 +64,55 @@ function LoginForm() {
     <div className="w-full max-w-md bg-white rounded-3xl p-8 border border-slate-200/80 shadow-xl space-y-6">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center mx-auto shadow-md">
-          <Building2 className="w-6 h-6 text-emerald-400" />
+        <div className="w-12 h-12 rounded-2xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white flex items-center justify-center mx-auto shadow-md">
+          <Building2 className="w-6 h-6 text-white" />
         </div>
-        <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-          Welcome to Estatify
+        <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+          Welcome to <span className="text-[#9333ea]">GetPlot</span>
         </h1>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-slate-500 font-medium">
           Sign in to manage your properties, saved listings, and inquiries.
         </p>
       </div>
 
-      {/* Demo Fast Login Buttons */}
-      <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
-        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block text-center">
-          Quick Fill Demo Accounts
+      {/* Demo Fast Login Buttons with Active State Accent */}
+      <div className="p-3 rounded-2xl bg-purple-50/60 border border-purple-100 space-y-2">
+        <span className="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 block text-center">
+          QUICK FILL DEMO ACCOUNTS
         </span>
-        <div className="grid grid-cols-3 gap-1.5 text-xs font-bold">
+        <div className="grid grid-cols-3 gap-2 text-xs font-bold">
           <button
             type="button"
             onClick={() => fillDemoAccount('buyer')}
-            className="py-1.5 px-2 rounded-xl bg-white border border-slate-200 hover:border-emerald-500 text-slate-800 text-[11px] transition-colors"
+            className={`py-2 px-2.5 rounded-xl text-[11px] transition-all duration-300 font-extrabold ${
+              activeRole === 'buyer'
+                ? 'bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white shadow-md shadow-purple-500/25 scale-[1.02] border-transparent'
+                : 'bg-white border border-slate-200 text-slate-700 hover:border-purple-300'
+            }`}
           >
             Buyer User
           </button>
+
           <button
             type="button"
             onClick={() => fillDemoAccount('agent')}
-            className="py-1.5 px-2 rounded-xl bg-white border border-slate-200 hover:border-emerald-500 text-slate-800 text-[11px] transition-colors"
+            className={`py-2 px-2.5 rounded-xl text-[11px] transition-all duration-300 font-extrabold ${
+              activeRole === 'agent'
+                ? 'bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white shadow-md shadow-purple-500/25 scale-[1.02] border-transparent'
+                : 'bg-white border border-slate-200 text-slate-700 hover:border-purple-300'
+            }`}
           >
             RERA Agent
           </button>
+
           <button
             type="button"
             onClick={() => fillDemoAccount('admin')}
-            className="py-1.5 px-2 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-[11px] transition-colors"
+            className={`py-2 px-2.5 rounded-xl text-[11px] transition-all duration-300 font-extrabold ${
+              activeRole === 'admin'
+                ? 'bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white shadow-md shadow-purple-500/25 scale-[1.02] border-transparent'
+                : 'bg-white border border-slate-200 text-slate-700 hover:border-purple-300'
+            }`}
           >
             Admin
           </button>
@@ -113,7 +129,7 @@ function LoginForm() {
               type="email"
               placeholder="name@example.com"
               {...register('email')}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-900 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 outline-none"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-900 focus:border-[#9333ea] focus:ring-1 focus:ring-[#9333ea] outline-none font-medium"
             />
           </div>
           {errors.email && (
@@ -126,7 +142,7 @@ function LoginForm() {
             <label className="text-xs font-bold text-slate-700">Password</label>
             <Link
               href="/forgot-password"
-              className="text-[11px] font-semibold text-emerald-700 hover:underline"
+              className="text-[11px] font-bold text-[#9333ea] hover:underline"
             >
               Forgot Password?
             </Link>
@@ -137,7 +153,7 @@ function LoginForm() {
               type="password"
               placeholder="••••••••"
               {...register('password')}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-900 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 outline-none"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-900 focus:border-[#9333ea] focus:ring-1 focus:ring-[#9333ea] outline-none font-medium"
             />
           </div>
           {errors.password && (
@@ -148,7 +164,7 @@ function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-sm shadow-md transition-all active:scale-[0.99] disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white font-extrabold text-sm shadow-md shadow-purple-500/25 transition-all active:scale-[0.99] disabled:opacity-50 cursor-pointer"
         >
           <LogIn className="w-4 h-4" />
           <span>{loading ? 'Signing in...' : 'Sign In'}</span>
@@ -156,9 +172,9 @@ function LoginForm() {
       </form>
 
       {/* Register CTA */}
-      <div className="text-center pt-2 text-xs text-slate-500">
+      <div className="text-center pt-2 text-xs text-slate-500 font-medium">
         Don&apos;t have an account yet?{' '}
-        <Link href="/register" className="font-bold text-emerald-700 hover:underline">
+        <Link href="/register" className="font-bold text-[#9333ea] hover:underline">
           Create Account
         </Link>
       </div>
