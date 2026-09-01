@@ -21,6 +21,7 @@ import PropertyForEveryone from '@/components/home/PropertyForEveryone';
 import PopularOwnerProperties from '@/components/home/PopularOwnerProperties';
 import PreferredAgentsSlider from '@/components/home/PreferredAgentsSlider';
 import PopularLocalitiesSlider from '@/components/home/PopularLocalitiesSlider';
+import AdviceToolsAndSnapshot from '@/components/home/AdviceToolsAndSnapshot';
 import { propertiesApi } from '@/lib/api/properties';
 import { locationsApi, taxonomiesApi } from '@/lib/api/locations';
 import { blogsApi } from '@/lib/api/blogs';
@@ -221,9 +222,6 @@ export default async function HomePage() {
                         year: 'numeric',
                       })}
                     </span>
-                    <span className="text-slate-900 group-hover:text-indigo-600 flex items-center gap-1 font-bold">
-                      Read Article →
-                    </span>
                   </div>
                 </div>
               </Link>
@@ -231,6 +229,9 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* 10. ADVICE & TOOLS, JAIPUR SNAPSHOT & POST FREE PROPERTY BANNER (RIGHT ABOVE FOOTER) */}
+      <AdviceToolsAndSnapshot />
     </div>
   );
 }
