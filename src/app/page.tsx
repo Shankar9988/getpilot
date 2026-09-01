@@ -19,6 +19,7 @@ import PropertyCard from '@/components/property/PropertyCard';
 import MagicHeroSection from '@/components/home/MagicHeroSection';
 import PropertyForEveryone from '@/components/home/PropertyForEveryone';
 import PopularOwnerProperties from '@/components/home/PopularOwnerProperties';
+import PreferredAgentsSlider from '@/components/home/PreferredAgentsSlider';
 import { propertiesApi } from '@/lib/api/properties';
 import { locationsApi, taxonomiesApi } from '@/lib/api/locations';
 import { blogsApi } from '@/lib/api/blogs';
@@ -156,39 +157,8 @@ export default async function HomePage() {
       {/* 3. POPULAR OWNER PROPERTIES (MAGICBRICKS STYLE CAROUSEL GRID) */}
       <PopularOwnerProperties properties={displayFeatured} />
 
-      {/* 4. "FEATURED PROPERTIES" (Matching Reference Card Style) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              Featured Properties
-            </h2>
-          </div>
-
-          <Link
-            href="/buy"
-            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-slate-700 hover:text-indigo-600 transition-colors group"
-          >
-            <span>View All Properties</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-
-        {/* 3-Card / 4-Card Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {displayFeatured.slice(0, 6).map((property: Property, idx: number) => {
-            const badgeType: 'Featured' | 'New' | 'Hot Deal' =
-              idx === 0 ? 'Featured' : idx === 1 ? 'New' : 'Hot Deal';
-            return (
-              <PropertyCard
-                key={property.id}
-                property={property}
-                badgeLabel={badgeType}
-              />
-            );
-          })}
-        </div>
-      </section>
+      {/* 4. PREFERRED AGENTS IN JAIPUR (TOP 10 AGENTS SLIDER) */}
+      <PreferredAgentsSlider />
 
       {/* 5. "HOW IT WORKS / FIND YOUR DREAM HOME IN 3 EASY STEPS" */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
