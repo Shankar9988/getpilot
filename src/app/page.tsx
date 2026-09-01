@@ -18,6 +18,7 @@ import {
 import PropertyCard from '@/components/property/PropertyCard';
 import MagicHeroSection from '@/components/home/MagicHeroSection';
 import PropertyForEveryone from '@/components/home/PropertyForEveryone';
+import PopularOwnerProperties from '@/components/home/PopularOwnerProperties';
 import { propertiesApi } from '@/lib/api/properties';
 import { locationsApi, taxonomiesApi } from '@/lib/api/locations';
 import { blogsApi } from '@/lib/api/blogs';
@@ -152,57 +153,8 @@ export default async function HomePage() {
       {/* 2. WE'VE GOT PROPERTIES FOR EVERYONE (MAGICBRICKS CAMPAIGN & CATEGORY CARDS) */}
       <PropertyForEveryone />
 
-      {/* 3. "WHY CHOOSE ESTATIFY / MORE THAN JUST A PROPERTY" (Split Section) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-          {/* Left Content */}
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <span className="text-xs font-extrabold tracking-wider uppercase text-indigo-600">
-                WHY CHOOSE ESTATIFY
-              </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 leading-tight">
-                More Than Just <br /> A Property
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
-                We offer more than just spaces. We deliver experiences that fit your life and future with 100% verified legal records.
-              </p>
-            </div>
-
-            {/* Checkmark List */}
-            <div className="space-y-3.5 pt-2">
-              {whyChoosePoints.map((point, idx) => (
-                <div key={idx} className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5 stroke-[3]" />
-                  </div>
-                  <span className="text-xs sm:text-sm font-bold text-slate-700">{point}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Learn More Action */}
-            <div className="pt-2">
-              <Link
-                href="/about"
-                className="btn-dark-navy inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-xs sm:text-sm font-bold shadow-md active:scale-95 transition-all"
-              >
-                <span>Learn More</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Image: Luxury Modern Living Room */}
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-4/3 bg-slate-100">
-            <img
-              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80"
-              alt="Luxury Living Room Interior"
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-            />
-          </div>
-        </div>
-      </section>
+      {/* 3. POPULAR OWNER PROPERTIES (MAGICBRICKS STYLE CAROUSEL GRID) */}
+      <PopularOwnerProperties properties={displayFeatured} />
 
       {/* 4. "FEATURED PROPERTIES" (Matching Reference Card Style) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
