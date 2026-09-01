@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import PropertyCard from '@/components/property/PropertyCard';
 import MagicHeroSection from '@/components/home/MagicHeroSection';
+import PropertyForEveryone from '@/components/home/PropertyForEveryone';
 import { propertiesApi } from '@/lib/api/properties';
 import { locationsApi, taxonomiesApi } from '@/lib/api/locations';
 import { blogsApi } from '@/lib/api/blogs';
@@ -148,50 +149,8 @@ export default async function HomePage() {
       {/* 1. HERO SLIDER (MAGICBRICKS STYLE WITH INTEGRATED SEARCH & SLIDER CARD) */}
       <MagicHeroSection slides={heroSlides} />
 
-      {/* 2. EXPLORE PROPERTY TYPES (COMPACT HORIZONTAL CARDS) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-22">
-        {/* Header Row: Left Title + Right View All */}
-        <div className="flex items-center justify-between gap-4 mb-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-            Explore Property Types
-          </h2>
-          <Link
-            href="/buy"
-            className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors group"
-          >
-            <span>View All</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </div>
-
-        {/* 6 Compact Horizontal Cards: 1 row on Desktop, scrollable on Tablet/Mobile */}
-        <div className="flex lg:grid lg:grid-cols-6 gap-3 sm:gap-4 overflow-x-auto no-scrollbar pb-2 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
-          {propertyTypeCards.map((pt) => {
-            const Icon = pt.icon;
-            return (
-              <Link
-                key={pt.name}
-                href={`/buy?property_type=${pt.slug}`}
-                className="flex items-center gap-3 p-3.5 sm:p-4 rounded-xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-200 min-w-[165px] lg:min-w-0 shrink-0 lg:shrink group"
-              >
-                <div
-                  className={`w-10 h-10 rounded-xl ${pt.iconBg} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform`}
-                >
-                  <Icon className="w-5 h-5 stroke-[2]" />
-                </div>
-                <div className="min-w-0">
-                  <h3 className="text-xs sm:text-sm font-semibold text-slate-900 truncate group-hover:text-indigo-600 transition-colors">
-                    {pt.name}
-                  </h3>
-                  <p className="text-[11px] text-slate-500 font-normal truncate mt-0.5">
-                    {pt.count} Listings
-                  </p>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
+      {/* 2. WE'VE GOT PROPERTIES FOR EVERYONE (MAGICBRICKS CAMPAIGN & CATEGORY CARDS) */}
+      <PropertyForEveryone />
 
       {/* 3. "WHY CHOOSE ESTATIFY / MORE THAN JUST A PROPERTY" (Split Section) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

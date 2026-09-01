@@ -15,34 +15,36 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Estatify | Verified Real Estate Marketplace India',
+  title: 'GetPlot.in | Real Estate & Property Marketplace India',
   description:
-    'Discover genuine verified residential apartments, luxury villas, builder floors, and commercial workspaces across Jaipur, Mumbai, Delhi NCR, Bengaluru, Pune, and Hyderabad. 100% verified listings with direct owner/agent connections.',
+    'Buy, Sell, and Rent 100% verified residential flats, luxury villas, builder floors, plots, and commercial properties on GetPlot.in across Jaipur, Mumbai, Delhi NCR, Bengaluru, Pune, and Hyderabad.',
   keywords: [
+    'GetPlot',
+    'GetPlot.in',
     'real estate india',
     'buy flat jaipur',
     'luxury apartments mumbai',
-    'villas for sale',
+    'plots for sale',
     'commercial office space',
     'verified property listings',
     'rera approved homes',
   ],
-  authors: [{ name: 'GetPlot Real Estate' }],
+  authors: [{ name: 'GetPlot.in Real Estate' }],
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://getplot.in'),
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: '/',
-    title: 'Estatify | Verified Real Estate Marketplace',
+    url: 'https://getplot.in',
+    title: 'GetPlot.in | Real Estate & Property Marketplace',
     description:
-      'Discover genuine verified residential apartments, luxury villas, and commercial workspaces across India.',
-    siteName: 'Estatify',
+      'Buy, Sell, and Rent 100% verified residential flats, luxury villas, builder floors, plots, and commercial properties on GetPlot.in',
+    siteName: 'GetPlot.in',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+        url: 'https://getplot.in/getplot_logo.png',
         width: 1200,
         height: 630,
-        alt: 'Estatify Verified Real Estate',
+        alt: 'GetPlot.in Real Estate',
       },
     ],
   },
