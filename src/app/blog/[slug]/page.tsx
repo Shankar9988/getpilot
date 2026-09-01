@@ -10,6 +10,16 @@ interface BlogDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateStaticParams() {
+  try {
+    const res = await blogsApi.getAll();
+    const slugs = (res.data || []).map((b) => ({ slug: b.slug }));
+    return slugs.length > 0 ? slugs : [{ slug: 'latest-article' }];
+  } catch {
+    return [{ slug: 'latest-article' }];
+  }
+}
+
 export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   try {

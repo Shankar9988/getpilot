@@ -25,9 +25,6 @@ import { Property } from '@/types/property';
 import { City } from '@/types/location';
 import { Blog } from '@/types/api';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
 export default async function HomePage() {
   const [featuredRes, latestRes, citiesRes, typesRes, blogsRes, heroSlidesRes] = await Promise.all([
     propertiesApi.getFeatured().catch(() => ({ data: [] })),

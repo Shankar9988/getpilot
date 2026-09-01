@@ -32,8 +32,15 @@ interface PropertyDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export async function generateStaticParams() {
+  try {
+    const res = await propertiesApi.getAll({ per_page: 50 });
+    const slugs = (res.data || []).map((p) => ({ slug: p.slug }));
+    return slugs.length > 0 ? slugs : [{ slug: 'featured-residence' }];
+  } catch {
+    return [{ slug: 'featured-residence' }];
+  }
+}
 
 export async function generateMetadata({ params }: PropertyDetailPageProps): Promise<Metadata> {
   const { slug } = await params;

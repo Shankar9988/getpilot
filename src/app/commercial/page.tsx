@@ -9,9 +9,6 @@ export const metadata: Metadata = {
     'Search verified commercial properties for lease and purchase: Grade-A IT offices, retail shops, showrooms, and warehouses across India.',
 };
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
 export default function CommercialPage() {
   return (
     <Suspense fallback={<div className="max-w-7xl mx-auto p-8"><PropertyCardSkeleton /></div>}>

@@ -2,6 +2,8 @@ import { MetadataRoute } from 'next';
 import { propertiesApi } from '@/lib/api/properties';
 import { blogsApi } from '@/lib/api/blogs';
 
+export const dynamic = 'force-static';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://getplot.in';
 

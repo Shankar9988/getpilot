@@ -9,9 +9,6 @@ export const metadata: Metadata = {
     'Discover verified homes, fully furnished apartments, and villas for rent across India. Direct connection with genuine landlords.',
 };
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
 export default function RentPage() {
   return (
     <Suspense fallback={<div className="max-w-7xl mx-auto p-8"><PropertyCardSkeleton /></div>}>

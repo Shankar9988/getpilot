@@ -9,10 +9,7 @@ export const metadata: Metadata = {
     'Search and buy verified apartments, independent villas, builder floors, and residential plots across India. 100% genuine title, zero broker spam.',
 };
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
-export default function BuyPage() {
+export default async function BuyPage({ searchParams }: { searchParams: Promise<any> }) {
   return (
     <Suspense fallback={<div className="max-w-7xl mx-auto p-8"><PropertyCardSkeleton /></div>}>
       <PropertyDiscoveryView
