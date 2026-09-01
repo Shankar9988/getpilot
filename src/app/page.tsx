@@ -16,7 +16,7 @@ import {
   Search
 } from 'lucide-react';
 import PropertyCard from '@/components/property/PropertyCard';
-import HeroSlider from '@/components/home/HeroSlider';
+import MagicHeroSection from '@/components/home/MagicHeroSection';
 import { propertiesApi } from '@/lib/api/properties';
 import { locationsApi, taxonomiesApi } from '@/lib/api/locations';
 import { blogsApi } from '@/lib/api/blogs';
@@ -145,8 +145,8 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-16 sm:space-y-24 pb-20">
-      {/* 1. HERO SLIDER (DYNAMIC & CONTROLLED FROM ADMIN PANEL) */}
-      <HeroSlider initialSlides={heroSlides} />
+      {/* 1. HERO SLIDER (MAGICBRICKS STYLE WITH INTEGRATED SEARCH & SLIDER CARD) */}
+      <MagicHeroSection slides={heroSlides} />
 
       {/* 2. EXPLORE PROPERTY TYPES (COMPACT HORIZONTAL CARDS) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-18 sm:pt-22">
