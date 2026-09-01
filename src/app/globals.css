@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+:root {
+  --font-sans: "Open Sans", serif;
+  
+  /* Primary Violet & Indigo Gradient Palette */
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-gradient: linear-gradient(135deg, #7c3aed 0%, #4f46e5 50%, #3b82f6 100%);
+  
+  /* Accent & Badges */
+  --accent-purple: #7c3aed;
+  --accent-pink: #ec4899;
+  --accent-cyan: #06b6d4;
+  --accent-gold: #f59e0b;
+  --accent-green: #10b981;
+  
+  /* Dark Navy & Typography */
+  --navy-950: #0a0f1d;
+  --navy-900: #0f172a;
+  --navy-800: #1e293b;
+  --navy-700: #334155;
+  
+  /* Clean Canvas & Light Surfaces */
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --surface-subtle: #f5f3ff;
+  --border: #f1f5f9;
+  --border-subtle: #e2e8f0;
+}
+
+html,
+body {
+  background-color: var(--background);
+  color: var(--navy-900);
+  font-family: "Open Sans", serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Reference Design Shadows & Glows */
+.nestoria-hero-shadow {
+  box-shadow: 0 30px 60px -12px rgba(79, 70, 229, 0.15), 0 18px 36px -18px rgba(15, 23, 42, 0.12);
+}
+
+.nestoria-card-shadow {
+  box-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.05), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+}
+
+.nestoria-card-hover {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nestoria-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.12), 0 8px 16px -4px rgba(15, 23, 42, 0.06);
+}
+
+.pill-search-shadow {
+  box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.12), 0 10px 25px -5px rgba(79, 70, 229, 0.08);
+}
+
+/* Gradient text utility */
+.text-gradient-purple {
+  background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 60%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Reference Gradient Buttons */
+.btn-gradient-purple {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%);
+  color: #ffffff;
+  transition: all 0.25s ease;
+}
+
+.btn-gradient-purple:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 50%, #4f46e5 100%);
+  box-shadow: 0 8px 25px -4px rgba(99, 102, 241, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-gradient-purple:active {
+  transform: translateY(0);
+}
+
+.btn-dark-navy {
+  background-color: #0f172a;
+  color: #ffffff;
+  transition: all 0.25s ease;
+}
+
+.btn-dark-navy:hover {
+  background-color: #1e293b;
+  box-shadow: 0 6px 20px -2px rgba(15, 23, 42, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-dark-navy:active {
+  transform: translateY(0);
+}
+
+/* Glassmorphism Header */
+.glass-nav-light {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(241, 245, 249, 0.9);
+}
+
+/* Text clamp utilities */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
