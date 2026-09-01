@@ -1,28 +1,44 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Camera, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Property } from '@/types/property';
+import { propertiesApi } from '@/lib/api/properties';
 
 interface PopularOwnerProps {
   properties: Property[];
 }
 
-export default function PopularOwnerProperties({ properties }: PopularOwnerProps) {
+export default function PopularOwnerProperties({ properties: initialProperties }: PopularOwnerProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [properties, setProperties] = useState<Property[]>(initialProperties || []);
+  const [loading, setLoading] = useState<boolean>(initialProperties.length === 0);
 
-  const displayProperties = properties.length > 0 ? properties.slice(0, 8) : [];
+  useEffect(() => {
+    // Fetch latest 10 properties dynamically so newly posted properties by Users & Agents instantly show
+    propertiesApi
+      .getLatest()
+      .then((res) => {
+        if (res.data && res.data.length > 0) {
+          setProperties(res.data.slice(0, 10));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const displayProperties = properties.length > 0 ? properties.slice(0, 10) : initialProperties.slice(0, 10);
 
   const scrollRight = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 320, behavior: 'smooth' });
+      scrollRef.current.scrollBy({ left: 340, behavior: 'smooth' });
     }
   };
 
   const scrollLeft = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -320, behavior: 'smooth' });
+      scrollRef.current.scrollBy({ left: -340, behavior: 'smooth' });
     }
   };
 
@@ -44,38 +60,44 @@ export default function PopularOwnerProperties({ properties }: PopularOwnerProps
           <h2 className="text-xl sm:text-3xl font-black text-slate-800 tracking-tight">
             <span className="border-b-4 border-amber-400 pb-1 inline-block">Popular</span> Owner Properties
           </h2>
+          <p className="text-xs text-slate-500 font-semibold mt-1 hidden sm:block">
+            Latest 10 verified properties listed by direct owners & RERA agents
+          </p>
         </div>
 
         <Link
-          href="/buy?featured=true"
-          className="text-[#d8232a] hover:text-red-700 font-extrabold text-xs sm:text-sm flex items-center gap-1.5 transition-colors group"
+          href="/buy"
+          className="text-[#d8232a] hover:text-red-700 font-extrabold text-xs sm:text-sm flex items-center gap-1.5 transition-colors group shrink-0"
         >
           <span>See all Properties</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
 
-      {/* Cards Container with Carousel Controls */}
+      {/* 10-Item Horizontal Slider Container with Hover Controls */}
       <div className="relative group/carousel">
         {/* Left Arrow Button */}
         <button
           type="button"
           onClick={scrollLeft}
-          className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white shadow-xl border border-slate-200 text-slate-700 hover:text-[#d8232a] flex items-center justify-center transition-all opacity-0 group-hover/carousel:opacity-100 hidden sm:flex"
+          aria-label="Previous Properties"
+          className="absolute -left-5 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white shadow-2xl border border-slate-200 text-slate-800 hover:text-[#d8232a] hover:scale-110 flex items-center justify-center transition-all opacity-90 sm:opacity-0 group-hover/carousel:opacity-100 shadow-slate-300"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-6 h-6" />
         </button>
 
-        {/* Property Cards Grid / Scrollable Row */}
+        {/* Scrollable Slider Box */}
         <div
           ref={scrollRef}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 overflow-x-auto scrollbar-none pb-4"
+          className="flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth scrollbar-none snap-x snap-mandatory py-2 px-1 -mx-1"
         >
           {displayProperties.map((property, idx) => {
-            const photoCount = (property.images?.length || 0) + (property.primary_image ? 1 : 0) || (idx % 3 === 0 ? 20 : idx % 2 === 0 ? 42 : 7);
+            const photoCount =
+              (property.images?.length || 0) + (property.primary_image ? 1 : 0) ||
+              (idx % 3 === 0 ? 20 : idx % 2 === 0 ? 42 : 7);
             const titleText = `${property.bedrooms || (idx % 2 === 0 ? 2 : 1)} BHK ${property.property_type?.name || 'Flat'}`;
             const priceText = formatPrice(property);
-            const areaText = `${property.area || (idx % 2 === 0 ? 1076 : 900)} sqft`;
+            const areaText = `${property.area || (idx % 2 === 0 ? 1076 : 900)} ${property.area_unit || 'sqft'}`;
             const locationText = `${property.locality?.name || property.address || 'Vaishali Nagar'}, ${property.city?.name || 'Jaipur'}`;
             const statusText = property.possession_status || (idx % 2 === 0 ? 'Ready to Move' : 'Under Construction');
             const imageUrl =
@@ -85,9 +107,9 @@ export default function PopularOwnerProperties({ properties }: PopularOwnerProps
 
             return (
               <Link
-                key={property.id}
+                key={property.id || idx}
                 href={`/property/${property.slug}`}
-                className="group bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col min-w-[260px] sm:min-w-0"
+                className="group bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col w-[270px] sm:w-[295px] shrink-0 snap-start"
               >
                 {/* Photo Header */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
@@ -103,7 +125,7 @@ export default function PopularOwnerProperties({ properties }: PopularOwnerProps
                   </div>
                 </div>
 
-                {/* Card Content */}
+                {/* Card Body Content */}
                 <div className="p-4 space-y-1.5 flex-1 flex flex-col justify-between text-slate-900">
                   <div>
                     <h3 className="text-xs font-bold text-slate-600 tracking-wide uppercase">
@@ -124,9 +146,14 @@ export default function PopularOwnerProperties({ properties }: PopularOwnerProps
                   </div>
 
                   {/* Possession Status */}
-                  <span className="text-xs font-bold text-slate-500 block pt-1">
-                    {statusText}
-                  </span>
+                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-xs font-bold text-slate-500 block">
+                      {statusText}
+                    </span>
+                    <span className="text-[11px] font-extrabold text-[#d8232a] group-hover:translate-x-0.5 transition-transform">
+                      View Details →
+                    </span>
+                  </div>
                 </div>
               </Link>
             );
@@ -137,9 +164,10 @@ export default function PopularOwnerProperties({ properties }: PopularOwnerProps
         <button
           type="button"
           onClick={scrollRight}
-          className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white shadow-xl border border-slate-200 text-slate-700 hover:text-[#d8232a] flex items-center justify-center transition-all opacity-0 group-hover/carousel:opacity-100 hidden sm:flex"
+          aria-label="Next Properties"
+          className="absolute -right-5 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white shadow-2xl border border-slate-200 text-slate-800 hover:text-[#d8232a] hover:scale-110 flex items-center justify-center transition-all opacity-90 sm:opacity-0 group-hover/carousel:opacity-100 shadow-slate-300"
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className="w-6 h-6" />
         </button>
       </div>
     </section>
