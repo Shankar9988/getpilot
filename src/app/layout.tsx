@@ -27,8 +27,8 @@ export const metadata: Metadata = {
     'verified property listings',
     'rera approved homes',
   ],
-  authors: [{ name: 'Estatify Global Realty' }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  authors: [{ name: 'GetPlot Real Estate' }],
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://getplot.in'),
   openGraph: {
     type: 'website',
     locale: 'en_IN',
