@@ -53,7 +53,7 @@ export default function PopularOwnerProperties({ properties: initialProperties }
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-[70px] relative">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[70px] pb-0 relative">
       {/* Title Row */}
       <div className="flex items-center justify-between gap-4 mb-6 sm:mb-8">
         <div>

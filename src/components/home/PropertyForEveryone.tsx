@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 
 export default function PropertyForEveryone() {
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-[70px]">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[70px] pb-0">
       {/* Title with red underline accent */}
       <div className="mb-6 sm:mb-8">
         <h2 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tight">
