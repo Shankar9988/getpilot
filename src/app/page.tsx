@@ -20,6 +20,7 @@ import MagicHeroSection from '@/components/home/MagicHeroSection';
 import PropertyForEveryone from '@/components/home/PropertyForEveryone';
 import PopularOwnerProperties from '@/components/home/PopularOwnerProperties';
 import PreferredAgentsSlider from '@/components/home/PreferredAgentsSlider';
+import PopularLocalitiesSlider from '@/components/home/PopularLocalitiesSlider';
 import { propertiesApi } from '@/lib/api/properties';
 import { locationsApi, taxonomiesApi } from '@/lib/api/locations';
 import { blogsApi } from '@/lib/api/blogs';
@@ -160,62 +161,8 @@ export default async function HomePage() {
       {/* 4. PREFERRED AGENTS IN JAIPUR (TOP 10 AGENTS SLIDER) */}
       <PreferredAgentsSlider />
 
-      {/* 5. "HOW IT WORKS / FIND YOUR DREAM HOME IN 3 EASY STEPS" */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-600">
-            HOW IT WORKS
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            Find Your Dream Home in 3 Easy Steps
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-          {[
-            {
-              step: '01',
-              title: 'Search & Explore',
-              desc: 'Browse thousands of verified listings in your desired location.',
-              icon: Search,
-              color: 'bg-indigo-50 text-indigo-600',
-            },
-            {
-              step: '02',
-              title: 'Choose Your Property',
-              desc: 'Compare options and find the perfect space for your lifestyle.',
-              icon: Home,
-              color: 'bg-violet-50 text-violet-600',
-            },
-            {
-              step: '03',
-              title: 'Move In & Enjoy',
-              desc: 'Complete the process and start your new journey with confidence.',
-              icon: Key,
-              color: 'bg-purple-50 text-purple-600',
-            },
-          ].map((s, idx) => {
-            const Icon = s.icon;
-            return (
-              <div
-                key={idx}
-                className="bg-white rounded-3xl p-8 border border-slate-100 nestoria-card-shadow nestoria-card-hover text-center space-y-4"
-              >
-                <div
-                  className={`w-14 h-14 rounded-full ${s.color} flex items-center justify-center mx-auto shadow-xs`}
-                >
-                  <Icon className="w-6 h-6 stroke-[2.2]" />
-                </div>
-                <div>
-                  <span className="text-[11px] font-black text-indigo-600 block mb-0.5">{s.step}</span>
-                  <h3 className="text-base font-extrabold text-slate-900">{s.title}</h3>
-                </div>
-                <p className="text-xs text-slate-500 font-medium leading-relaxed">{s.desc}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      {/* 5. EXPLORE POPULAR LOCALITIES IN JAIPUR */}
+      <PopularLocalitiesSlider />
 
       {/* 6. "WHAT OUR CLIENTS SAY" (Testimonials) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
