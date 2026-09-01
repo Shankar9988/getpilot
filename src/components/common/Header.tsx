@@ -2,534 +2,548 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
-  Building2,
-  Heart,
-  User as UserIcon,
-  Menu,
-  X,
   ChevronDown,
   ChevronUp,
+  MapPin,
+  User as UserIcon,
+  Crown,
+  Heart,
   LayoutDashboard,
-  Home,
-  MessageSquareText,
-  ShieldCheck,
   LogOut,
-  ArrowRight
+  Menu,
+  X,
+  Building2,
+  Home,
+  CheckCircle2,
+  Sparkles,
+  Phone,
+  HelpCircle,
+  Calculator
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useFavorites } from '@/context/FavoritesContext';
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const { user, logout } = useAuth();
   const { favoriteIds } = useFavorites();
 
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [selectedCity, setSelectedCity] = useState('Jaipur');
+  const [cityDropdownOpen, setCityDropdownOpen] = useState(false);
+  const [primeDropdownOpen, setPrimeDropdownOpen] = useState(false);
+  const [loginDropdownOpen, setLoginDropdownOpen] = useState(false);
+
+  // Active Menu Dropdown State
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
-  // Dropdown states for Desktop
-  const [propertiesOpen, setPropertiesOpen] = useState(false);
-  const [pagesOpen, setPagesOpen] = useState(false);
+  const cityRef = useRef<HTMLDivElement>(null);
+  const primeRef = useRef<HTMLDivElement>(null);
+  const loginRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  // Accordion states for Mobile
-  const [mobilePropertiesOpen, setMobilePropertiesOpen] = useState(false);
-  const [mobilePagesOpen, setMobilePagesOpen] = useState(false);
+  const popularCities = [
+    { name: 'Jaipur', slug: 'jaipur' },
+    { name: 'Mumbai', slug: 'mumbai' },
+    { name: 'Delhi NCR', slug: 'delhi-ncr' },
+    { name: 'Bengaluru', slug: 'bengaluru' },
+    { name: 'Pune', slug: 'pune' },
+    { name: 'Hyderabad', slug: 'hyderabad' },
+  ];
 
-  const propertiesRef = useRef<HTMLDivElement>(null);
-  const pagesRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 15) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    setMobileMenuOpen(false);
-    setUserDropdownOpen(false);
-    setPropertiesOpen(false);
-    setPagesOpen(false);
-  }, [pathname]);
-
-  // Click outside to close dropdowns
+  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (propertiesRef.current && !propertiesRef.current.contains(e.target as Node)) {
-        setPropertiesOpen(false);
+      if (cityRef.current && !cityRef.current.contains(e.target as Node)) {
+        setCityDropdownOpen(false);
       }
-      if (pagesRef.current && !pagesRef.current.contains(e.target as Node)) {
-        setPagesOpen(false);
+      if (primeRef.current && !primeRef.current.contains(e.target as Node)) {
+        setPrimeDropdownOpen(false);
+      }
+      if (loginRef.current && !loginRef.current.contains(e.target as Node)) {
+        setLoginDropdownOpen(false);
+      }
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setActiveMenu(null);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const propertyDropdownItems = [
-    { label: 'All Properties', href: '/buy' },
-    { label: 'Featured Properties', href: '/buy?featured=true' },
-    { label: 'Most Viewed Properties', href: '/buy?sort=relevance' },
-    { label: 'Most Favourite Properties', href: '/buy?sort=newest' },
-    { label: 'Properties Nearby City', href: '/buy?city=jaipur' },
-  ];
+  // Close mobile menu on page change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setActiveMenu(null);
+    setCityDropdownOpen(false);
+    setPrimeDropdownOpen(false);
+    setLoginDropdownOpen(false);
+  }, [pathname]);
 
-  const pageDropdownItems = [
-    { label: 'Subscription Plan', href: '/about' },
-    { label: 'Articles', href: '/blog' },
-    { label: 'FAQs', href: '/faq' },
-    { label: 'Area Converter', href: '/post-property' },
-    { label: 'Terms & Conditions', href: '/terms' },
-    { label: 'Privacy Policy', href: '/privacy-policy' },
-  ];
-
-  const isActive = (href: string) => {
-    if (href === '/') return pathname === '/';
-    return pathname.startsWith(href);
+  const handleCitySelect = (cityName: string, citySlug: string) => {
+    setSelectedCity(cityName);
+    setCityDropdownOpen(false);
+    router.push(`/buy?city=${citySlug}`);
   };
 
   return (
-    <>
-      <header
-        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-          isScrolled
-            ? 'bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm'
-            : 'bg-white/90 backdrop-blur-sm border-b border-slate-100/60'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* LEFT: Brand Logo */}
-            <Link href="/" className="flex items-center gap-3 group shrink-0">
+    <header className="w-full sticky top-0 z-50 shadow-md">
+      {/* 🔴 TOP BAR - MAGICBRICKS CRIMSON RED (#d8232a) */}
+      <div className="bg-[#d8232a] text-white py-2.5 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* LEFT: Logo + City Selector */}
+          <div className="flex items-center gap-3 sm:gap-6">
+            {/* GetPlot Logo */}
+            <Link href="/" className="flex items-center gap-2 shrink-0 group">
               <img
                 src="/getplot_logo.png"
-                alt="GetPlot - Find Compare Own"
-                className="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                alt="GetPlot"
+                className="h-8 sm:h-9 w-auto object-contain bg-white/95 px-2.5 py-1 rounded-xl shadow-xs transition-transform group-hover:scale-105"
               />
             </Link>
 
-            {/* CENTER: Navigation Links (Only Home, Properties dropdown, Pages dropdown, About Us) */}
-            <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-              {/* Home Link */}
-              <Link
-                href="/"
-                className={`relative px-3.5 py-2 rounded-xl text-xs xl:text-sm font-bold transition-all ${
-                  isActive('/')
-                    ? 'text-indigo-600 font-extrabold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                }`}
+            {/* City Selector Dropdown */}
+            <div ref={cityRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setCityDropdownOpen(!cityDropdownOpen)}
+                className="flex items-center gap-1 text-xs sm:text-sm font-bold text-white hover:text-amber-200 transition-colors bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-xl border border-white/20"
               >
-                <span>Home</span>
-                {isActive('/') && (
-                  <span className="absolute bottom-0 inset-x-3.5 h-0.5 bg-indigo-600 rounded-full" />
-                )}
-              </Link>
+                <MapPin className="w-3.5 h-3.5 text-amber-300" />
+                <span>{selectedCity}</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${cityDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
 
-              {/* 1. PROPERTIES DROPDOWN */}
-              <div
-                ref={propertiesRef}
-                className="relative"
-                onMouseEnter={() => setPropertiesOpen(true)}
-                onMouseLeave={() => setPropertiesOpen(false)}
-              >
-                <button
-                  type="button"
-                  onClick={() => setPropertiesOpen(!propertiesOpen)}
-                  className={`px-3.5 py-2 rounded-xl text-xs xl:text-sm font-bold flex items-center gap-1 transition-all ${
-                    propertiesOpen || pathname.startsWith('/buy')
-                      ? 'text-indigo-600 font-extrabold bg-indigo-50/50'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                  }`}
-                >
-                  <span>Properties</span>
-                  {propertiesOpen ? (
-                    <ChevronUp className="w-3.5 h-3.5 text-indigo-600 transition-transform" />
-                  ) : (
-                    <ChevronDown className="w-3.5 h-3.5 text-slate-400 transition-transform" />
-                  )}
-                </button>
-
-                {/* Dropdown Menu Container */}
-                {propertiesOpen && (
-                  <div className="absolute top-full left-0 mt-1.5 w-64 rounded-2xl bg-white text-slate-900 shadow-2xl border border-slate-100 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <div className="space-y-1">
-                      {propertyDropdownItems.map((item) => (
-                        <Link
-                          key={item.label}
-                          href={item.href}
-                          onClick={() => setPropertiesOpen(false)}
-                          className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50/60 transition-all group"
-                        >
-                          {/* Small light-gray circular bullet icon */}
-                          <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-indigo-600 transition-colors shrink-0" />
-                          <span>{item.label}</span>
-                        </Link>
-                      ))}
-                    </div>
+              {cityDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-slate-100 p-2 z-50 text-slate-900 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="text-[10px] font-extrabold text-slate-400 uppercase px-3 py-1 tracking-wider">
+                    Popular Cities
                   </div>
-                )}
-              </div>
-
-              {/* 2. PAGES DROPDOWN */}
-              <div
-                ref={pagesRef}
-                className="relative"
-                onMouseEnter={() => setPagesOpen(true)}
-                onMouseLeave={() => setPagesOpen(false)}
-              >
-                <button
-                  type="button"
-                  onClick={() => setPagesOpen(!pagesOpen)}
-                  className={`px-3.5 py-2 rounded-xl text-xs xl:text-sm font-bold flex items-center gap-1 transition-all ${
-                    pagesOpen
-                      ? 'text-indigo-600 font-extrabold bg-indigo-50/50'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                  }`}
-                >
-                  <span>Pages</span>
-                  {pagesOpen ? (
-                    <ChevronUp className="w-3.5 h-3.5 text-indigo-600 transition-transform" />
-                  ) : (
-                    <ChevronDown className="w-3.5 h-3.5 text-slate-400 transition-transform" />
-                  )}
-                </button>
-
-                {/* Dropdown Menu Container */}
-                {pagesOpen && (
-                  <div className="absolute top-full left-0 mt-1.5 w-60 rounded-2xl bg-white text-slate-900 shadow-2xl border border-slate-100 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <div className="space-y-1">
-                      {pageDropdownItems.map((item) => (
-                        <Link
-                          key={item.label}
-                          href={item.href}
-                          onClick={() => setPagesOpen(false)}
-                          className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50/60 transition-all group"
-                        >
-                          {/* Small light-gray circular bullet icon */}
-                          <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-indigo-600 transition-colors shrink-0" />
-                          <span>{item.label}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* About Us Link */}
-              <Link
-                href="/about"
-                className={`relative px-3.5 py-2 rounded-xl text-xs xl:text-sm font-bold transition-all ${
-                  isActive('/about')
-                    ? 'text-indigo-600 font-extrabold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                }`}
-              >
-                <span>About Us</span>
-                {isActive('/about') && (
-                  <span className="absolute bottom-0 inset-x-3.5 h-0.5 bg-indigo-600 rounded-full" />
-                )}
-              </Link>
-
-              {/* Contact Us Link */}
-              <Link
-                href="/contact"
-                className={`relative px-3.5 py-2 rounded-xl text-xs xl:text-sm font-bold transition-all ${
-                  isActive('/contact')
-                    ? 'text-indigo-600 font-extrabold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                }`}
-              >
-                <span>Contact Us</span>
-                {isActive('/contact') && (
-                  <span className="absolute bottom-0 inset-x-3.5 h-0.5 bg-indigo-600 rounded-full" />
-                )}
-              </Link>
-            </nav>
-
-            {/* RIGHT: Favorites Heart, Login Button, and Post Property CTA */}
-            <div className="hidden sm:flex items-center gap-3">
-              {/* Favorites Heart Icon */}
-              <Link
-                href={user ? '/dashboard/favorites' : '/login'}
-                className="relative w-10 h-10 rounded-full border border-slate-200 hover:border-indigo-300 text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50 flex items-center justify-center transition-all"
-                title="Saved Favorites"
-              >
-                <Heart className="w-4 h-4" />
-                {favoriteIds.length > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-indigo-600 text-white text-[9px] font-black flex items-center justify-center shadow-xs">
-                    {favoriteIds.length}
-                  </span>
-                )}
-              </Link>
-
-              {/* Login Button (when not logged in) */}
-              {!user && (
-                <Link
-                  href="/login"
-                  className="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-slate-700 hover:text-indigo-600 hover:bg-slate-50 transition-all flex items-center gap-1.5 border border-transparent hover:border-slate-200"
-                >
-                  <UserIcon className="w-4 h-4 text-slate-400" />
-                  <span>Login</span>
-                </Link>
+                  {popularCities.map((c) => (
+                    <button
+                      key={c.slug}
+                      type="button"
+                      onClick={() => handleCitySelect(c.name, c.slug)}
+                      className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between ${
+                        selectedCity === c.name
+                          ? 'bg-red-50 text-[#d8232a]'
+                          : 'hover:bg-slate-50 text-slate-700'
+                      }`}
+                    >
+                      <span>{c.name}</span>
+                      {selectedCity === c.name && <CheckCircle2 className="w-3.5 h-3.5 text-[#d8232a]" />}
+                    </button>
+                  ))}
+                </div>
               )}
+            </div>
+          </div>
 
-              {/* User Dropdown if Authenticated */}
-              {user ? (
-                <div className="relative">
-                  <button
-                    type="button"
-                    onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                    onBlur={() => setTimeout(() => setUserDropdownOpen(false), 200)}
-                    className="flex items-center gap-2 p-1.5 pr-3 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 transition-all"
+          {/* RIGHT: Prime + Login + Post Property FREE */}
+          <div className="hidden md:flex items-center gap-4 text-xs font-bold">
+            {/* GetPlot Prime */}
+            <div ref={primeRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setPrimeDropdownOpen(!primeDropdownOpen)}
+                className="flex items-center gap-1 text-white hover:text-amber-300 transition-colors py-1"
+              >
+                <Crown className="w-3.5 h-3.5 text-amber-300" />
+                <span>GetPlot Prime</span>
+                <ChevronDown className="w-3 h-3 text-white/80" />
+              </button>
+
+              {primeDropdownOpen && (
+                <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-slate-100 p-4 z-50 text-slate-900 animate-in fade-in duration-200">
+                  <div className="flex items-center gap-2 text-[#d8232a] font-black text-sm mb-1">
+                    <Crown className="w-4 h-4 text-amber-500" />
+                    <span>GetPlot Prime Benefits</span>
+                  </div>
+                  <p className="text-xs text-slate-500 mb-3">Pay Zero Commission | Direct Owner Contacts</p>
+                  <ul className="space-y-1.5 text-xs text-slate-700 font-semibold mb-4">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Contact up to 30 Owners directly</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Access 100% Verified Prime Properties</span>
+                    </li>
+                  </ul>
+                  <Link
+                    href="/about"
+                    className="block w-full text-center py-2 bg-[#d8232a] hover:bg-red-700 text-white font-bold rounded-xl text-xs transition-colors"
                   >
-                    <div className="w-7 h-7 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-xs shadow-xs">
-                      {user.name.charAt(0).toUpperCase()}
-                    </div>
-                    <span className="text-xs font-bold truncate max-w-[90px]">{user.name.split(' ')[0]}</span>
-                    <ChevronDown className="w-3.5 h-3.5 opacity-60" />
-                  </button>
+                    Join Prime Now
+                  </Link>
+                </div>
+              )}
+            </div>
 
-                  {userDropdownOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-60 rounded-2xl bg-white text-slate-900 shadow-2xl border border-slate-100 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                      <div className="px-3.5 py-2.5 border-b border-slate-100 mb-1">
-                        <p className="text-xs font-bold text-slate-900">{user.name}</p>
-                        <p className="text-[11px] text-slate-400 truncate">{user.email}</p>
+            {/* Login / User Dropdown */}
+            <div ref={loginRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setLoginDropdownOpen(!loginDropdownOpen)}
+                className="flex items-center gap-1.5 text-white hover:text-amber-200 transition-colors py-1"
+              >
+                <UserIcon className="w-4 h-4" />
+                <span>{user ? user.name.split(' ')[0] : 'Login'}</span>
+                <ChevronDown className="w-3 h-3 text-white/80" />
+              </button>
+
+              {loginDropdownOpen && (
+                <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-slate-100 p-2 z-50 text-slate-900 animate-in fade-in duration-200">
+                  {user ? (
+                    <>
+                      <div className="px-3 py-2 border-b border-slate-100 mb-1">
+                        <span className="block text-xs font-black text-slate-900">{user.name}</span>
+                        <span className="block text-[10px] font-bold text-slate-400 uppercase">{user.role}</span>
                       </div>
-
-                      <Link
-                        href="/dashboard"
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
-                      >
-                        <LayoutDashboard className="w-4 h-4 text-indigo-600" />
-                        <span>Dashboard</span>
-                      </Link>
-
-                      <Link
-                        href="/dashboard/properties"
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
-                      >
-                        <Home className="w-4 h-4 text-slate-400" />
-                        <span>My Properties</span>
-                      </Link>
-
-                      <Link
-                        href="/dashboard/inquiries"
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
-                      >
-                        <MessageSquareText className="w-4 h-4 text-slate-400" />
-                        <span>Leads & Inquiries</span>
-                      </Link>
 
                       {user.role === 'admin' && (
                         <Link
                           href="/admin"
-                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 transition-colors mt-1"
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50"
                         >
-                          <ShieldCheck className="w-4 h-4 text-indigo-600" />
+                          <LayoutDashboard className="w-4 h-4 text-[#d8232a]" />
                           <span>Admin Portal</span>
                         </Link>
                       )}
 
+                      <Link
+                        href="/dashboard"
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50"
+                      >
+                        <Home className="w-4 h-4 text-slate-500" />
+                        <span>My Dashboard</span>
+                      </Link>
+
+                      <Link
+                        href="/dashboard/favorites"
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50"
+                      >
+                        <Heart className="w-4 h-4 text-rose-500" />
+                        <span>Shortlisted Properties ({favoriteIds.length})</span>
+                      </Link>
+
                       <button
-                        type="button"
                         onClick={logout}
-                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors mt-1"
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 mt-1 border-t border-slate-100"
                       >
                         <LogOut className="w-4 h-4" />
                         <span>Logout</span>
                       </button>
-                    </div>
-                  )}
-                </div>
-              ) : null}
-
-              {/* Reference Dark Navy "Get Started" / "Post Property" CTA */}
-              <Link
-                href="/post-property"
-                className="btn-dark-navy px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold shadow-md active:scale-95 transition-all inline-flex items-center gap-2"
-              >
-                <span>Get Started</span>
-              </Link>
-            </div>
-
-            {/* Mobile Header Trigger */}
-            <div className="flex lg:hidden items-center gap-2">
-              <Link
-                href={user ? '/dashboard/favorites' : '/login'}
-                className="p-2 rounded-xl text-slate-700 hover:bg-slate-100"
-              >
-                <Heart className="w-5 h-5" />
-              </Link>
-
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(true)}
-                className="p-2 rounded-xl text-slate-800 hover:bg-slate-100"
-                aria-label="Open Navigation Menu"
-              >
-                <Menu className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* MOBILE SLIDE-OUT DRAWER MENU */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden flex">
-          <div
-            onClick={() => setMobileMenuOpen(false)}
-            className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200"
-          />
-
-          <div className="relative ml-auto w-full max-w-xs bg-white text-slate-900 h-full shadow-2xl flex flex-col justify-between p-6 z-10 animate-in slide-in-from-right duration-300 overflow-y-auto">
-            <div className="space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                <Link href="/" className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center">
-                    <Building2 className="w-4 h-4" />
-                  </div>
-                  <span className="text-lg font-black tracking-tight text-slate-900">
-                    Nestoria<span className="text-indigo-600">.</span>
-                  </span>
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Mobile Navigation List */}
-              <nav className="space-y-1">
-                <Link
-                  href="/"
-                  className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-colors ${
-                    isActive('/') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-700 hover:bg-slate-50'
-                  }`}
-                >
-                  <span>Home</span>
-                  <ArrowRight className="w-4 h-4 opacity-40" />
-                </Link>
-
-                {/* Mobile Properties Accordion */}
-                <div className="space-y-1">
-                  <button
-                    type="button"
-                    onClick={() => setMobilePropertiesOpen(!mobilePropertiesOpen)}
-                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50"
-                  >
-                    <span>Properties</span>
-                    {mobilePropertiesOpen ? (
-                      <ChevronUp className="w-4 h-4 text-indigo-600" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4 text-slate-400" />
-                    )}
-                  </button>
-
-                  {mobilePropertiesOpen && (
-                    <div className="pl-4 pr-2 py-1 space-y-1 bg-slate-50/70 rounded-xl">
-                      {propertyDropdownItems.map((item) => (
+                    </>
+                  ) : (
+                    <>
+                      <div className="p-3 bg-slate-50 rounded-xl mb-2 text-center">
+                        <span className="block text-xs font-extrabold text-slate-900 mb-2">Welcome to GetPlot</span>
                         <Link
-                          key={item.label}
-                          href={item.href}
-                          className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-600 hover:text-indigo-600"
+                          href="/login"
+                          className="block w-full py-2 bg-[#d8232a] hover:bg-red-700 text-white font-bold rounded-xl text-xs shadow-sm transition-colors"
                         >
-                          <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
-                          <span>{item.label}</span>
+                          Login / Register
                         </Link>
-                      ))}
-                    </div>
+                      </div>
+                      <Link
+                        href="/login"
+                        className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-50"
+                      >
+                        <span>Shortlisted Properties</span>
+                        <Heart className="w-3.5 h-3.5 text-rose-500" />
+                      </Link>
+                    </>
                   )}
                 </div>
-
-                {/* Mobile Pages Accordion */}
-                <div className="space-y-1">
-                  <button
-                    type="button"
-                    onClick={() => setMobilePagesOpen(!mobilePagesOpen)}
-                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50"
-                  >
-                    <span>Pages</span>
-                    {mobilePagesOpen ? (
-                      <ChevronUp className="w-4 h-4 text-indigo-600" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4 text-slate-400" />
-                    )}
-                  </button>
-
-                  {mobilePagesOpen && (
-                    <div className="pl-4 pr-2 py-1 space-y-1 bg-slate-50/70 rounded-xl">
-                      {pageDropdownItems.map((item) => (
-                        <Link
-                          key={item.label}
-                          href={item.href}
-                          className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-slate-600 hover:text-indigo-600"
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
-                          <span>{item.label}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <Link
-                  href="/about"
-                  className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-colors ${
-                    isActive('/about') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-700 hover:bg-slate-50'
-                  }`}
-                >
-                  <span>About Us</span>
-                  <ArrowRight className="w-4 h-4 opacity-40" />
-                </Link>
-
-                <Link
-                  href="/contact"
-                  className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-colors ${
-                    isActive('/contact') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-700 hover:bg-slate-50'
-                  }`}
-                >
-                  <span>Contact Us</span>
-                  <ArrowRight className="w-4 h-4 opacity-40" />
-                </Link>
-              </nav>
-            </div>
-
-            {/* Bottom Actions in Drawer */}
-            <div className="space-y-3 pt-6 border-t border-slate-100">
-              <Link
-                href="/post-property"
-                className="btn-dark-navy w-full flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold text-center shadow-md"
-              >
-                <span>Get Started / Post Listing</span>
-              </Link>
-
-              {!user && (
-                <Link
-                  href="/login"
-                  className="w-full flex items-center justify-center py-2.5 rounded-xl border border-slate-200 text-slate-800 text-xs font-bold hover:bg-slate-50"
-                >
-                  Login / Register
-                </Link>
               )}
             </div>
+
+            {/* Post Property FREE Button */}
+            <Link
+              href="/post-property"
+              className="bg-white hover:bg-slate-100 text-[#d8232a] font-extrabold px-4 py-1.5 rounded-full text-xs shadow-md transition-all flex items-center gap-1.5 active:scale-95"
+            >
+              <span>Post Property</span>
+              <span className="px-1.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black tracking-tight uppercase">
+                FREE
+              </span>
+            </Link>
+          </div>
+
+          {/* Mobile Hamburger Toggle */}
+          <div className="flex items-center gap-2 md:hidden">
+            <Link
+              href="/post-property"
+              className="bg-white text-[#d8232a] font-black px-3 py-1 rounded-full text-[11px] flex items-center gap-1 shadow-xs"
+            >
+              <span>Post</span>
+              <span className="px-1 rounded bg-amber-400 text-slate-950 text-[9px]">FREE</span>
+            </Link>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-1.5 text-white hover:bg-white/10 rounded-lg"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ⚪ BOTTOM SUB-HEADER MENU BAR (WHITE BACKGROUND) */}
+      <div ref={menuRef} className="bg-white border-b border-slate-200 text-slate-800 hidden md:block">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ul className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-bold">
+            {/* BUY DROPDOWN */}
+            <li className="relative" onMouseEnter={() => setActiveMenu('buy')} onMouseLeave={() => setActiveMenu(null)}>
+              <button
+                type="button"
+                className={`py-3 px-3 flex items-center gap-1 transition-colors ${
+                  activeMenu === 'buy' || pathname === '/buy' ? 'text-[#d8232a] font-extrabold' : 'hover:text-[#d8232a]'
+                }`}
+              >
+                <span>Buy</span>
+                <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+              </button>
+
+              {activeMenu === 'buy' && (
+                <div className="absolute top-full left-0 w-[580px] bg-white rounded-b-2xl shadow-2xl border border-slate-100 p-5 z-50 grid grid-cols-3 gap-6 animate-in fade-in duration-200">
+                  <div>
+                    <div className="text-xs font-black text-slate-900 uppercase tracking-wider mb-2 border-b pb-1">Popular Choices</div>
+                    <ul className="space-y-2 text-xs font-medium text-slate-600">
+                      <li><Link href="/buy" className="hover:text-[#d8232a]">Ready to Move</Link></li>
+                      <li><Link href="/buy?featured=true" className="hover:text-[#d8232a]">Direct Owner Properties</Link></li>
+                      <li><Link href="/buy?sort=relevance" className="hover:text-[#d8232a]">Budget Homes</Link></li>
+                      <li><Link href="/buy?sort=newest" className="hover:text-[#d8232a]">Premium Luxury Estates</Link></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <div className="text-xs font-black text-slate-900 uppercase tracking-wider mb-2 border-b pb-1">Property Types</div>
+                    <ul className="space-y-2 text-xs font-medium text-slate-600">
+                      <li><Link href="/buy?type=apartment" className="hover:text-[#d8232a]">Flats / Apartments</Link></li>
+                      <li><Link href="/buy?type=independent-house" className="hover:text-[#d8232a]">Independent House</Link></li>
+                      <li><Link href="/buy?type=villa" className="hover:text-[#d8232a]">Luxury Villa</Link></li>
+                      <li><Link href="/buy?type=residential-plot" className="hover:text-[#d8232a]">Plots & Land</Link></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <div className="text-xs font-black text-slate-900 uppercase tracking-wider mb-2 border-b pb-1">Budget Filter</div>
+                    <ul className="space-y-2 text-xs font-medium text-slate-600">
+                      <li><Link href="/buy" className="hover:text-[#d8232a]">Under ₹ 50 Lac</Link></li>
+                      <li><Link href="/buy" className="hover:text-[#d8232a]">₹ 50 Lac - ₹ 1 Cr</Link></li>
+                      <li><Link href="/buy" className="hover:text-[#d8232a]">₹ 1 Cr - ₹ 1.5 Cr</Link></li>
+                      <li><Link href="/buy" className="hover:text-[#d8232a]">Above ₹ 1.5 Cr</Link></li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </li>
+
+            {/* RENT DROPDOWN */}
+            <li className="relative" onMouseEnter={() => setActiveMenu('rent')} onMouseLeave={() => setActiveMenu(null)}>
+              <button
+                type="button"
+                className={`py-3 px-3 flex items-center gap-1 transition-colors ${
+                  activeMenu === 'rent' || pathname === '/rent' ? 'text-[#d8232a] font-extrabold' : 'hover:text-[#d8232a]'
+                }`}
+              >
+                <span>Rent</span>
+                <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+              </button>
+
+              {activeMenu === 'rent' && (
+                <div className="absolute top-full left-0 w-[420px] bg-white rounded-b-2xl shadow-2xl border border-slate-100 p-5 z-50 grid grid-cols-2 gap-6 animate-in fade-in duration-200">
+                  <div>
+                    <div className="text-xs font-black text-slate-900 uppercase tracking-wider mb-2 border-b pb-1">Popular Choices</div>
+                    <ul className="space-y-2 text-xs font-medium text-slate-600">
+                      <li><Link href="/rent" className="hover:text-[#d8232a]">100% Verified Properties</Link></li>
+                      <li><Link href="/rent" className="hover:text-[#d8232a]">Furnished Residences</Link></li>
+                      <li><Link href="/rent" className="hover:text-[#d8232a]">Bachelor Friendly Homes</Link></li>
+                      <li><Link href="/rent" className="hover:text-[#d8232a]">Immediately Available</Link></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <div className="text-xs font-black text-slate-900 uppercase tracking-wider mb-2 border-b pb-1">Property Types</div>
+                    <ul className="space-y-2 text-xs font-medium text-slate-600">
+                      <li><Link href="/rent?type=apartment" className="hover:text-[#d8232a]">Flats for Rent</Link></li>
+                      <li><Link href="/rent?type=independent-house" className="hover:text-[#d8232a]">House for Rent</Link></li>
+                      <li><Link href="/rent?type=villa" className="hover:text-[#d8232a]">Villa for Rent</Link></li>
+                      <li><Link href="/rent" className="hover:text-[#d8232a]">PG & Hostels</Link></li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </li>
+
+            {/* SELL DROPDOWN */}
+            <li className="relative" onMouseEnter={() => setActiveMenu('sell')} onMouseLeave={() => setActiveMenu(null)}>
+              <button
+                type="button"
+                className={`py-3 px-3 flex items-center gap-1 transition-colors ${
+                  activeMenu === 'sell' ? 'text-[#d8232a] font-extrabold' : 'hover:text-[#d8232a]'
+                }`}
+              >
+                <span>Sell</span>
+                <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+              </button>
+
+              {activeMenu === 'sell' && (
+                <div className="absolute top-full left-0 w-56 bg-white rounded-b-2xl shadow-2xl border border-slate-100 p-3 z-50 animate-in fade-in duration-200 space-y-1">
+                  <Link href="/post-property" className="block px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50">
+                    Post Property FREE
+                  </Link>
+                  <Link href="/dashboard" className="block px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50">
+                    Seller Dashboard
+                  </Link>
+                  <Link href="/" className="block px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50">
+                    PropWorth AI Valuation
+                  </Link>
+                </div>
+              )}
+            </li>
+
+            {/* HOME LOANS */}
+            <li className="relative" onMouseEnter={() => setActiveMenu('loans')} onMouseLeave={() => setActiveMenu(null)}>
+              <button
+                type="button"
+                className={`py-3 px-3 flex items-center gap-1 transition-colors ${
+                  activeMenu === 'loans' ? 'text-[#d8232a] font-extrabold' : 'hover:text-[#d8232a]'
+                }`}
+              >
+                <span>Home Loans</span>
+                <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+              </button>
+
+              {activeMenu === 'loans' && (
+                <div className="absolute top-full left-0 w-60 bg-white rounded-b-2xl shadow-2xl border border-slate-100 p-3 z-50 animate-in fade-in duration-200 space-y-1">
+                  <div className="px-3 py-1.5 bg-emerald-50 text-emerald-800 rounded-lg text-[11px] font-bold mb-2">
+                    Home Loans Starting at 8.35% p.a.
+                  </div>
+                  <Link href="/about" className="block px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50">
+                    EMI Calculator
+                  </Link>
+                  <Link href="/about" className="block px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50">
+                    Check Loan Eligibility
+                  </Link>
+                </div>
+              )}
+            </li>
+
+            {/* HOME INTERIORS */}
+            <li>
+              <Link
+                href="/commercial"
+                className="py-3 px-3 flex items-center gap-1 hover:text-[#d8232a] transition-colors"
+              >
+                <span>Commercial</span>
+              </Link>
+            </li>
+
+            {/* GETPLOT ADVICE (WITH NEW BADGE) */}
+            <li className="relative" onMouseEnter={() => setActiveMenu('advice')} onMouseLeave={() => setActiveMenu(null)}>
+              <button
+                type="button"
+                className={`py-3 px-3 flex items-center gap-1.5 transition-colors ${
+                  activeMenu === 'advice' ? 'text-[#d8232a] font-extrabold' : 'hover:text-[#d8232a]'
+                }`}
+              >
+                <span>GetPlot Advice</span>
+                <span className="px-1 py-0.2 rounded bg-amber-400 text-slate-950 text-[9px] font-black uppercase">
+                  NEW
+                </span>
+                <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+              </button>
+
+              {activeMenu === 'advice' && (
+                <div className="absolute top-full left-0 w-56 bg-white rounded-b-2xl shadow-2xl border border-slate-100 p-3 z-50 animate-in fade-in duration-200 space-y-1">
+                  <Link href="/blog" className="block px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50">
+                    Rates & Market Trends
+                  </Link>
+                  <Link href="/blog" className="block px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50">
+                    Property Buying Guide
+                  </Link>
+                  <Link href="/faq" className="block px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50">
+                    Land Area Converter
+                  </Link>
+                </div>
+              )}
+            </li>
+
+            {/* HELP */}
+            <li className="relative" onMouseEnter={() => setActiveMenu('help')} onMouseLeave={() => setActiveMenu(null)}>
+              <button
+                type="button"
+                className={`py-3 px-3 flex items-center gap-1 transition-colors ${
+                  activeMenu === 'help' ? 'text-[#d8232a] font-extrabold' : 'hover:text-[#d8232a]'
+                }`}
+              >
+                <span>Help</span>
+                <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+              </button>
+
+              {activeMenu === 'help' && (
+                <div className="absolute top-full left-0 w-52 bg-white rounded-b-2xl shadow-2xl border border-slate-100 p-3 z-50 animate-in fade-in duration-200 space-y-1">
+                  <Link href="/contact" className="block px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50">
+                    Contact Us
+                  </Link>
+                  <Link href="/faq" className="block px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50">
+                    FAQs & Support
+                  </Link>
+                  <Link href="/terms" className="block px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50">
+                    Terms & Conditions
+                  </Link>
+                  <Link href="/privacy-policy" className="block px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-[#d8232a] hover:bg-red-50">
+                    Privacy Policy
+                  </Link>
+                </div>
+              )}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* 📱 MOBILE NAVIGATION DRAWER */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-white border-b border-slate-200 p-4 space-y-3 animate-in slide-in-from-top duration-200 text-slate-900">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-[#d8232a]" />
+              <select
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
+                className="font-bold text-xs bg-slate-100 px-2 py-1 rounded-lg border-none"
+              >
+                {popularCities.map((c) => (
+                  <option key={c.slug} value={c.name}>{c.name}</option>
+                ))}
+              </select>
+            </div>
+            {user ? (
+              <span className="text-xs font-extrabold text-[#d8232a]">Hi, {user.name.split(' ')[0]}</span>
+            ) : (
+              <Link href="/login" className="text-xs font-bold text-[#d8232a] underline">Login / Sign Up</Link>
+            )}
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 text-xs font-bold pt-1">
+            <Link href="/buy" className="p-3 bg-slate-50 rounded-xl text-slate-800 hover:bg-red-50 hover:text-[#d8232a] text-center">
+              Buy Properties
+            </Link>
+            <Link href="/rent" className="p-3 bg-slate-50 rounded-xl text-slate-800 hover:bg-red-50 hover:text-[#d8232a] text-center">
+              Rent Properties
+            </Link>
+            <Link href="/commercial" className="p-3 bg-slate-50 rounded-xl text-slate-800 hover:bg-red-50 hover:text-[#d8232a] text-center">
+              Commercial
+            </Link>
+            <Link href="/post-property" className="p-3 bg-red-50 text-[#d8232a] rounded-xl text-center font-extrabold">
+              Post Property FREE
+            </Link>
           </div>
         </div>
       )}
-    </>
+    </header>
   );
 }
