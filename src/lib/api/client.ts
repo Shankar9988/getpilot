@@ -1,6 +1,11 @@
 import { ApiResponse } from '@/types/api';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1';
+const getApiBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_API_URL && !process.env.NEXT_PUBLIC_API_URL.includes('127.0.0.1')) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+  return 'https://getplot.in/api/v1';
+};
 
 export class ApiError extends Error {
   statusCode: number;
@@ -18,7 +23,8 @@ export async function apiClient<T = any>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
-  const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+  const baseUrl = getApiBaseUrl();
+  const url = `${baseUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 
   const headers = new Headers(options.headers);
   if (!headers.has('Content-Type') && !(options.body instanceof FormData)) {
