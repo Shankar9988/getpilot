@@ -149,7 +149,7 @@ export default async function HomePage() {
   ];
 
   return (
-    <div className="space-y-16 sm:space-y-24 pb-20">
+    <div className="space-y-0 pb-0">
       {/* 1. HERO SLIDER (MAGICBRICKS STYLE WITH INTEGRATED SEARCH & SLIDER CARD) */}
       <MagicHeroSection slides={heroSlides} />
 
@@ -165,11 +165,9 @@ export default async function HomePage() {
       {/* 5. EXPLORE POPULAR LOCALITIES IN JAIPUR */}
       <PopularLocalitiesSlider />
 
-
-
       {/* 9. ARTICLES & BLOGS PREVIEW */}
       {blogs.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-[70px] space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-100 pb-4">
             <div>
               <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-600">

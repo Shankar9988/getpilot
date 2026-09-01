@@ -104,7 +104,7 @@ export default function PopularLocalitiesSlider() {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-[70px]">
       <div className="flex flex-col lg:flex-row gap-6 items-stretch">
         {/* Left Feature Card */}
         <div className="bg-[#e6f7f7] rounded-3xl p-6 sm:p-8 border border-teal-100/90 min-w-[240px] lg:w-[260px] shrink-0 flex flex-col justify-center space-y-2 relative overflow-hidden shadow-xs">

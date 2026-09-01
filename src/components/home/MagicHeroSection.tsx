@@ -108,7 +108,7 @@ export default function MagicHeroSection({ slides: propsSlides }: MagicHeroSecti
   const currentSlide = slides[currentSlideIndex] || slides[0];
 
   return (
-    <section className="bg-[#f8f9fa] py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-b border-slate-200 overflow-hidden">
+    <section className="bg-[#f8f9fa] py-[70px] px-4 sm:px-6 lg:px-8 border-b border-slate-200 overflow-hidden">
       <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
         {/* CENTER TAGLINE HEADER */}
         <div className="text-center">

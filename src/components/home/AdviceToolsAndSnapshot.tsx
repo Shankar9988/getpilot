@@ -65,7 +65,7 @@ export default function AdviceToolsAndSnapshot() {
   ];
 
   return (
-    <div className="space-y-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div className="space-y-[70px] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-[70px]">
       {/* 1. ADVICE & TOOLS */}
       <section className="relative">
         <div className="mb-6 sm:mb-8">
