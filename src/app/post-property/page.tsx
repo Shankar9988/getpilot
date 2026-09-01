@@ -350,8 +350,8 @@ export default function PostPropertyPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       {/* Step Indicator Header */}
       <div className="space-y-4 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
-          <ShieldCheck className="w-4 h-4 text-emerald-600" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 text-[#9333ea] text-xs font-bold border border-purple-200">
+          <ShieldCheck className="w-4 h-4 text-[#9333ea]" />
           <span>Zero Brokerage Verified Listing</span>
         </div>
         <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900">
@@ -369,7 +369,7 @@ export default function PostPropertyPage() {
           </div>
           <div className="w-full h-2 rounded-full bg-slate-200 overflow-hidden">
             <div
-              className="h-full bg-emerald-600 transition-all duration-300 rounded-full"
+              className="h-full bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] transition-all duration-300 rounded-full"
               style={{ width: `${(currentStep / steps.length) * 100}%` }}
             />
           </div>
@@ -398,14 +398,14 @@ export default function PostPropertyPage() {
                   onClick={() => updateField('listing_type', item.id)}
                   className={`p-6 rounded-2xl border-2 text-left transition-all space-y-2 ${
                     formData.listing_type === item.id
-                      ? 'border-emerald-600 bg-emerald-50/50 shadow-md'
+                      ? 'border-[#9333ea] bg-purple-50/60 shadow-md'
                       : 'border-slate-200 hover:border-slate-300 bg-white'
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <h3 className="text-base font-bold text-slate-900">{item.title}</h3>
                     {formData.listing_type === item.id && (
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                      <CheckCircle2 className="w-5 h-5 text-[#9333ea]" />
                     )}
                   </div>
                   <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
@@ -433,11 +433,11 @@ export default function PostPropertyPage() {
                     onClick={() => updateField('property_type_id', type.id)}
                     className={`p-4 rounded-2xl border-2 text-center transition-all space-y-2 ${
                       formData.property_type_id === type.id
-                        ? 'border-emerald-600 bg-emerald-50/50 shadow-xs'
+                        ? 'border-[#9333ea] bg-purple-50/60 shadow-xs'
                         : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
-                    <Building2 className={`w-6 h-6 mx-auto ${formData.property_type_id === type.id ? 'text-emerald-600' : 'text-slate-400'}`} />
+                    <Building2 className={`w-6 h-6 mx-auto ${formData.property_type_id === type.id ? 'text-[#9333ea]' : 'text-slate-400'}`} />
                     <div className="text-xs font-bold text-slate-900">{type.name}</div>
                   </button>
                 ))}
@@ -461,7 +461,7 @@ export default function PostPropertyPage() {
                   placeholder="e.g. Spacious 3 BHK Sea View Luxury Apartment in Bandra West"
                   value={formData.title}
                   onChange={(e) => updateField('title', e.target.value)}
-                  className="w-full p-3 rounded-xl border border-slate-200 focus:border-emerald-600 text-sm text-slate-900 outline-none"
+                  className="w-full p-3 rounded-xl border border-slate-200 focus:border-[#9333ea] text-sm text-slate-900 outline-none"
                 />
               </div>
 
@@ -472,7 +472,7 @@ export default function PostPropertyPage() {
                   placeholder="Describe key highlights, floor plans, ventilation, facing, and landmark connectivity..."
                   value={formData.description}
                   onChange={(e) => updateField('description', e.target.value)}
-                  className="w-full p-3 rounded-xl border border-slate-200 focus:border-emerald-600 text-sm text-slate-900 outline-none"
+                  className="w-full p-3 rounded-xl border border-slate-200 focus:border-[#9333ea] text-sm text-slate-900 outline-none"
                 />
               </div>
 
@@ -574,7 +574,7 @@ export default function PostPropertyPage() {
           <div className="space-y-6">
             <div>
               <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-emerald-600" />
+                <MapPin className="w-5 h-5 text-[#9333ea]" />
                 <h2 className="text-xl font-extrabold text-slate-900">4. Location & Address Details</h2>
               </div>
               <p className="text-xs text-slate-500">
@@ -665,7 +665,7 @@ export default function PostPropertyPage() {
                     onChange={(e) => updateField('price', Number(e.target.value))}
                     className="w-full p-3 rounded-xl border border-slate-200 text-sm text-slate-900 outline-none"
                   />
-                  <div className="text-[11px] text-emerald-700 font-semibold mt-1 flex items-center gap-1">
+                  <div className="text-[11px] text-[#9333ea] font-semibold mt-1 flex items-center gap-1">
                     <span>Display:</span> <PriceDisplay price={formData.price} />
                   </div>
                 </div>
@@ -678,7 +678,7 @@ export default function PostPropertyPage() {
                     onChange={(e) => updateField('monthly_rent', Number(e.target.value))}
                     className="w-full p-3 rounded-xl border border-slate-200 text-sm text-slate-900 outline-none"
                   />
-                  <div className="text-[11px] text-emerald-700 font-semibold mt-1 flex items-center gap-1">
+                  <div className="text-[11px] text-[#9333ea] font-semibold mt-1 flex items-center gap-1">
                     <span>Display:</span> <PriceDisplay monthlyRent={formData.monthly_rent} listingType="rent" />
                   </div>
                 </div>
@@ -700,7 +700,7 @@ export default function PostPropertyPage() {
                     type="checkbox"
                     checked={formData.is_negotiable}
                     onChange={(e) => updateField('is_negotiable', e.target.checked)}
-                    className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 accent-emerald-600"
+                    className="w-4 h-4 rounded text-[#9333ea] focus:ring-emerald-500 accent-[#9333ea]"
                   />
                   <span className="text-xs font-bold text-slate-800">Price is Negotiable for genuine buyers</span>
                 </label>
@@ -727,12 +727,12 @@ export default function PostPropertyPage() {
                     onClick={() => handleAmenityToggle(a.id)}
                     className={`flex items-center justify-between p-3 rounded-xl border text-xs font-bold transition-all text-left ${
                       isSelected
-                        ? 'border-emerald-600 bg-emerald-50 text-emerald-900'
+                        ? 'border-[#9333ea] bg-purple-50 text-purple-900'
                         : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
                     }`}
                   >
                     <span>{a.name}</span>
-                    {isSelected && <Check className="w-4 h-4 text-emerald-600 shrink-0" />}
+                    {isSelected && <Check className="w-4 h-4 text-[#9333ea] shrink-0" />}
                   </button>
                 );
               })}
@@ -755,9 +755,9 @@ export default function PostPropertyPage() {
               <button
                 type="button"
                 onClick={handleLoadSamplePresets}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition-colors shrink-0"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 text-xs font-bold transition-colors shrink-0"
               >
-                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                <Sparkles className="w-3.5 h-3.5 text-[#9333ea]" />
                 <span>Load Sample Photos</span>
               </button>
             </div>
@@ -782,13 +782,13 @@ export default function PostPropertyPage() {
               />
 
               {formData.main_image ? (
-                <div className="relative aspect-16/8 sm:aspect-16/7 rounded-3xl overflow-hidden border-2 border-emerald-500 shadow-md group bg-slate-900">
+                <div className="relative aspect-16/8 sm:aspect-16/7 rounded-3xl overflow-hidden border-2 border-[#9333ea] shadow-md group bg-slate-900">
                   <img
                     src={formData.main_image}
                     alt="Main Cover Preview"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center gap-1 shadow-md">
+                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white text-xs font-bold flex items-center gap-1 shadow-md">
                     <Star className="w-3.5 h-3.5 fill-current" />
                     <span>Primary Cover Photo</span>
                   </div>
@@ -816,9 +816,9 @@ export default function PostPropertyPage() {
               ) : (
                 <div
                   onClick={() => mainFileInputRef.current?.click()}
-                  className="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-3xl p-8 text-center cursor-pointer transition-all bg-slate-50 hover:bg-emerald-50/40 space-y-3"
+                  className="border-2 border-dashed border-slate-300 hover:border-[#9333ea] rounded-3xl p-8 text-center cursor-pointer transition-all bg-slate-50 hover:bg-purple-50/40 space-y-3"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-xs">
+                  <div className="w-14 h-14 rounded-2xl bg-purple-100 text-[#9333ea] flex items-center justify-center mx-auto shadow-xs">
                     <Upload className="w-6 h-6" />
                   </div>
                   <div>
@@ -831,7 +831,7 @@ export default function PostPropertyPage() {
                   </div>
                   <button
                     type="button"
-                    className="px-5 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold shadow-xs hover:bg-emerald-600 transition-colors inline-block"
+                    className="px-5 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold shadow-xs hover:opacity-95 transition-colors inline-block"
                   >
                     Browse Main Photo
                   </button>
@@ -844,7 +844,7 @@ export default function PostPropertyPage() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                   <label className="text-xs font-extrabold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
-                    <ImageIcon className="w-4 h-4 text-emerald-600" />
+                    <ImageIcon className="w-4 h-4 text-[#9333ea]" />
                     <span>Gallery Photos (6 to 8 Photos Recommended)</span>
                   </label>
                   <p className="text-xs text-slate-500">
@@ -855,7 +855,7 @@ export default function PostPropertyPage() {
                 <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold shrink-0">
                   <span>{formData.gallery_images.length} / 8 Photos Added</span>
                   {formData.gallery_images.length >= 6 && formData.gallery_images.length <= 8 && (
-                    <Check className="w-3.5 h-3.5 text-emerald-600 ml-1" />
+                    <Check className="w-3.5 h-3.5 text-[#9333ea] ml-1" />
                   )}
                 </div>
               </div>
@@ -924,7 +924,7 @@ export default function PostPropertyPage() {
                       <button
                         type="button"
                         onClick={() => handleSetAsMain(idx)}
-                        className="w-full py-1 px-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold transition-colors"
+                        className="w-full py-1 px-2 rounded-lg bg-emerald-600 hover:bg-purple-500 text-white text-[10px] font-bold transition-colors"
                       >
                         Set as Main Cover
                       </button>
@@ -937,9 +937,9 @@ export default function PostPropertyPage() {
                   <button
                     type="button"
                     onClick={() => galleryFileInputRef.current?.click()}
-                    className="aspect-4/3 rounded-2xl border-2 border-dashed border-slate-300 hover:border-emerald-500 bg-slate-50 hover:bg-emerald-50/30 flex flex-col items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-emerald-700 p-3 text-center"
+                    className="aspect-4/3 rounded-2xl border-2 border-dashed border-slate-300 hover:border-[#9333ea] bg-slate-50 hover:bg-purple-50/30 flex flex-col items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-[#9333ea] p-3 text-center"
                   >
-                    <Plus className="w-6 h-6 text-emerald-600" />
+                    <Plus className="w-6 h-6 text-[#9333ea]" />
                     <span className="text-[11px] font-bold">
                       {uploadingGallery ? 'Uploading...' : 'Add Gallery Photo'}
                     </span>
@@ -953,9 +953,9 @@ export default function PostPropertyPage() {
               {/* Multi-File Upload Banner */}
               <div
                 onClick={() => galleryFileInputRef.current?.click()}
-                className="border border-slate-200 hover:border-emerald-500 rounded-2xl p-4 text-center cursor-pointer bg-slate-50 hover:bg-emerald-50/20 transition-all flex items-center justify-center gap-3 text-xs font-semibold text-slate-700"
+                className="border border-slate-200 hover:border-[#9333ea] rounded-2xl p-4 text-center cursor-pointer bg-slate-50 hover:bg-purple-50/20 transition-all flex items-center justify-center gap-3 text-xs font-semibold text-slate-700"
               >
-                <Upload className="w-4 h-4 text-emerald-600" />
+                <Upload className="w-4 h-4 text-[#9333ea]" />
                 <span>
                   {uploadingGallery ? 'Uploading Gallery Photos...' : 'Click to select multiple gallery photos from your device'}
                 </span>
@@ -969,7 +969,7 @@ export default function PostPropertyPage() {
                 onClick={() => setShowUrlInput(!showUrlInput)}
                 className="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1.5"
               >
-                <LinkIcon className="w-3.5 h-3.5 text-emerald-600" />
+                <LinkIcon className="w-3.5 h-3.5 text-[#9333ea]" />
                 <span>{showUrlInput ? 'Hide Web URL Input' : '+ Or Add Photo via Direct Image URL'}</span>
               </button>
 
@@ -980,12 +980,12 @@ export default function PostPropertyPage() {
                     placeholder="Paste image URL (e.g. Unsplash URL or CDN link)"
                     value={customImageUrl}
                     onChange={(e) => setCustomImageUrl(e.target.value)}
-                    className="flex-1 p-3 rounded-xl border border-slate-200 text-xs text-slate-900 outline-none focus:border-emerald-500"
+                    className="flex-1 p-3 rounded-xl border border-slate-200 text-xs text-slate-900 outline-none focus:border-[#9333ea]"
                   />
                   <button
                     type="button"
                     onClick={handleAddImageUrl}
-                    className="px-5 py-3 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-emerald-600 transition-colors shrink-0"
+                    className="px-5 py-3 rounded-xl bg-slate-900 text-white text-xs font-bold hover:opacity-95 transition-colors shrink-0"
                   >
                     Add URL Photo
                   </button>
@@ -1006,7 +1006,7 @@ export default function PostPropertyPage() {
             <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">For {formData.listing_type}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#9333ea]">For {formData.listing_type}</span>
                   <h3 className="text-lg font-bold text-slate-900">{formData.title || 'Untitled Property'}</h3>
                   <p className="text-xs text-slate-500">{formData.address}, {formData.pincode}</p>
                 </div>
@@ -1025,9 +1025,9 @@ export default function PostPropertyPage() {
                 </div>
                 <div className="flex items-center gap-2 overflow-x-auto pb-2">
                   {formData.main_image && (
-                    <div className="relative w-20 h-16 rounded-xl overflow-hidden border-2 border-emerald-500 shrink-0">
+                    <div className="relative w-20 h-16 rounded-xl overflow-hidden border-2 border-[#9333ea] shrink-0">
                       <img src={formData.main_image} alt="Main Cover" className="w-full h-full object-cover" />
-                      <span className="absolute bottom-0 inset-x-0 bg-emerald-600 text-white text-[8px] font-bold text-center py-0.5">Cover</span>
+                      <span className="absolute bottom-0 inset-x-0 bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white text-[8px] font-bold text-center py-0.5">Cover</span>
                     </div>
                   )}
                   {formData.gallery_images.map((g, i) => (
@@ -1060,9 +1060,9 @@ export default function PostPropertyPage() {
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start gap-3">
-              <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-              <p className="text-xs text-emerald-900 leading-relaxed">
+            <div className="p-4 rounded-2xl bg-purple-50 border border-purple-200 flex items-start gap-3">
+              <ShieldCheck className="w-5 h-5 text-[#9333ea] shrink-0 mt-0.5" />
+              <p className="text-xs text-purple-900 leading-relaxed">
                 By submitting this listing, you confirm you are the authorized owner or authorized broker. Your listing will be reviewed by our verification desk and published within 24 hours.
               </p>
             </div>
@@ -1085,7 +1085,7 @@ export default function PostPropertyPage() {
             <button
               type="button"
               onClick={() => setCurrentStep((prev) => Math.min(8, prev + 1))}
-              className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white text-xs font-bold shadow-md transition-colors"
+              className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-slate-900 hover:opacity-95 text-white text-xs font-bold shadow-md transition-colors"
             >
               <span>Continue</span>
               <ArrowRight className="w-4 h-4" />
@@ -1095,7 +1095,7 @@ export default function PostPropertyPage() {
               type="button"
               disabled={submitting}
               onClick={handleSubmit}
-              className="flex items-center gap-2 px-8 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-lg shadow-emerald-950/20 transition-all active:scale-[0.99] disabled:opacity-50"
+              className="flex items-center gap-2 px-8 py-3 rounded-xl bg-emerald-600 hover:opacity-95 text-white text-sm font-bold shadow-lg shadow-emerald-950/20 transition-all active:scale-[0.99] disabled:opacity-50"
             >
               <CheckCircle2 className="w-5 h-5" />
               <span>{submitting ? 'Submitting Listing...' : 'Submit Property for Verification'}</span>
