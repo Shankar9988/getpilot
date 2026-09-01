@@ -15,6 +15,7 @@ import HeroSearch from '@/components/search/HeroSearch';
 
 interface HeroSliderProps {
   initialSlides?: HeroSlide[];
+  slides?: HeroSlide[];
 }
 
 const fallbackSlides: HeroSlide[] = [

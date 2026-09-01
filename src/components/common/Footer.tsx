@@ -70,12 +70,11 @@ export default function Footer() {
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-3 group inline-flex">
-              <div className="w-10 h-10 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 shadow-lg">
-                <Building2 className="w-5 h-5" />
-              </div>
-              <span className="text-2xl font-black tracking-tight text-white">
-                Nestoria<span className="text-indigo-400">.</span>
-              </span>
+              <img
+                src="/getplot_logo.png"
+                alt="GetPlot - Find Compare Own"
+                className="h-12 sm:h-14 w-auto object-contain bg-white/95 px-3 py-1.5 rounded-2xl shadow-xl border border-slate-700/50"
+              />
             </Link>
 
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">

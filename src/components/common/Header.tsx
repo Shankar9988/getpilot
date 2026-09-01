@@ -112,17 +112,11 @@ export default function Header() {
           <div className="flex items-center justify-between h-20">
             {/* LEFT: Brand Logo */}
             <Link href="/" className="flex items-center gap-3 group shrink-0">
-              <div className="w-10 h-10 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center shadow-xs group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
-                <Building2 className="w-5 h-5 transition-transform group-hover:scale-110" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 leading-none">
-                  Nestoria<span className="text-indigo-600">.</span>
-                </span>
-                <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase mt-0.5">
-                  Live Elevated
-                </span>
-              </div>
+              <img
+                src="/getplot_logo.png"
+                alt="GetPlot - Find Compare Own"
+                className="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              />
             </Link>
 
             {/* CENTER: Navigation Links (Only Home, Properties dropdown, Pages dropdown, About Us) */}
