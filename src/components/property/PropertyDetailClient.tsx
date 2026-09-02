@@ -26,7 +26,9 @@ import {
   ArrowLeft,
   Loader2,
   Car,
-  ChevronDown
+  ChevronDown,
+  FileText,
+  Download
 } from 'lucide-react';
 import { PropertyDetail } from '@/types/property';
 
@@ -34,11 +36,22 @@ interface PropertyDetailClientProps {
   slug: string;
 }
 
+function getMaskedPhone(phone?: string | null): string {
+  if (!phone) return '98XXXXXXXX';
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length >= 10) {
+    const firstTwo = digits.slice(-10, -8);
+    return `${firstTwo}XXXXXXXX`;
+  }
+  return '98XXXXXXXX';
+}
+
 export default function PropertyDetailClient({ slug }: PropertyDetailClientProps) {
   const [property, setProperty] = useState<PropertyDetail | null>(null);
   const [similarProperties, setSimilarProperties] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [notFoundState, setNotFoundState] = useState(false);
+  const [showPhone, setShowPhone] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -379,48 +392,64 @@ export default function PropertyDetailClient({ slug }: PropertyDetailClientProps
 
           <div className="space-y-6">
             {property.seller && (
-              <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-                <div className="flex items-center gap-3.5">
-                  <div className="w-14 h-14 rounded-2xl bg-purple-100 text-purple-900 font-extrabold text-lg flex items-center justify-center overflow-hidden shadow-xs shrink-0">
-                    {property.seller.avatar ? (
-                      <img src={property.seller.avatar} alt={property.seller.name} className="w-full h-full object-cover" />
-                    ) : (
-                      property.seller.name.charAt(0)
-                    )}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <h3 className="text-base font-bold text-slate-900">{property.seller.name}</h3>
+              <div className="space-y-4">
+                {/* Contact Owner Card */}
+                <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
+                  <div className="space-y-1">
+                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                      Contact {property.seller.role === 'agent' ? 'Agent' : 'Owner'}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-lg font-black text-slate-900">{property.seller.name}</h3>
                       <CheckCircle2 className="w-4 h-4 text-[#9333ea] fill-purple-100" />
                     </div>
-                    <p className="text-xs text-slate-500 capitalize">
-                      Verified {property.seller.role === 'agent' ? 'Real Estate Advisor' : 'Property Owner'}
+                    <p className="text-xs font-bold text-slate-600 tracking-wider">
+                      {showPhone ? property.seller.phone || '+91 98765 01234' : `+91-${getMaskedPhone(property.seller.phone)}`}
                     </p>
-                    {property.seller.company_name && (
-                      <p className="text-xs font-semibold text-[#9333ea] mt-0.5">
-                        {property.seller.company_name}
-                      </p>
+                  </div>
+
+                  {property.seller.license_number && (
+                    <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-[11px] text-slate-600">
+                      <span className="font-bold text-slate-800">RERA No:</span> {property.seller.license_number}
+                    </div>
+                  )}
+
+                  <div className="pt-2">
+                    {!showPhone ? (
+                      <button
+                        onClick={() => setShowPhone(true)}
+                        className="w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white font-extrabold text-sm shadow-md shadow-purple-500/25 transition-all active:scale-[0.99] cursor-pointer"
+                      >
+                        Get Phone No.
+                      </button>
+                    ) : (
+                      <a
+                        href={`tel:${property.seller.phone || '+919876501234'}`}
+                        className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm shadow-md transition-all active:scale-[0.99]"
+                      >
+                        <Phone className="w-4 h-4" />
+                        <span>Call {property.seller.phone || '+91 98765 01234'}</span>
+                      </a>
                     )}
                   </div>
                 </div>
 
-                {property.seller.license_number && (
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-[11px] text-slate-600">
-                    <span className="font-bold text-slate-800">RERA No:</span> {property.seller.license_number}
+                {/* Download Brochure Card */}
+                <div
+                  onClick={() => alert(`Downloading official brochure for ${property.title}...`)}
+                  className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs hover:shadow-md transition-all cursor-pointer flex items-center gap-4 group"
+                >
+                  <div className="w-12 h-12 rounded-2xl border-2 border-slate-900 group-hover:border-[#9333ea] flex items-center justify-center text-slate-900 group-hover:text-[#9333ea] transition-colors shrink-0">
+                    <FileText className="w-6 h-6" />
                   </div>
-                )}
-
-                {property.seller.phone && (
-                  <div className="pt-2 flex flex-col gap-2">
-                    <a
-                      href={`tel:${property.seller.phone}`}
-                      className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 text-xs font-extrabold border border-purple-200 transition-colors"
-                    >
-                      <Phone className="w-4 h-4" />
-                      <span>Call {property.seller.phone}</span>
-                    </a>
+                  <div className="flex-1">
+                    <h4 className="text-sm font-black text-slate-900 group-hover:text-[#9333ea] transition-colors">
+                      Download Brochure
+                    </h4>
+                    <p className="text-[11px] text-slate-500 font-medium">Floor plans & verified specs PDF</p>
                   </div>
-                )}
+                  <Download className="w-4 h-4 text-slate-400 group-hover:text-[#9333ea] transition-colors" />
+                </div>
               </div>
             )}
 
