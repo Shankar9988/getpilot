@@ -24,7 +24,9 @@ import {
   CheckCircle2,
   Home,
   ArrowLeft,
-  Loader2
+  Loader2,
+  Car,
+  ChevronDown
 } from 'lucide-react';
 import { PropertyDetail } from '@/types/property';
 
@@ -222,67 +224,105 @@ export default function PropertyDetailClient({ slug }: PropertyDetailClientProps
         {/* Gallery */}
         <PropertyGallery media={property.media || []} title={property.title} />
 
-        {/* Key Specs */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs">
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
-              <Maximize2 className="w-3.5 h-3.5 text-[#9333ea]" />
-              <span>Carpet Area</span>
+        {/* MagicBricks Style Key Specifications Container */}
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md space-y-6">
+          {/* Top Soft Off-White/Grey Pill Banner (Beds | Baths | Balcony | Parking) */}
+          <div className="bg-[#f4f5f7] rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4 text-slate-800 font-extrabold text-sm sm:text-base border border-slate-200/60 shadow-xs">
+            <div className="flex items-center gap-2">
+              <BedDouble className="w-5 h-5 text-slate-700 shrink-0" />
+              <span>{property.bedrooms ? `${property.bedrooms} Beds` : '2 Beds'}</span>
             </div>
-            <div className="text-base font-extrabold text-slate-900">
-              {property.area} <span className="text-xs font-medium text-slate-500">{property.area_unit}</span>
+            <span className="text-slate-300 hidden sm:inline font-normal">|</span>
+            <div className="flex items-center gap-2">
+              <Bath className="w-5 h-5 text-slate-700 shrink-0" />
+              <span>{property.bathrooms ? `${property.bathrooms} Baths` : '2 Baths'}</span>
             </div>
-          </div>
-
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
-              <BedDouble className="w-3.5 h-3.5 text-[#9333ea]" />
-              <span>Bedrooms</span>
+            <span className="text-slate-300 hidden sm:inline font-normal">|</span>
+            <div className="flex items-center gap-2">
+              <Layers className="w-5 h-5 text-slate-700 shrink-0" />
+              <span>{property.balconies ? `${property.balconies} Balcony` : '1 Balcony'}</span>
             </div>
-            <div className="text-base font-extrabold text-slate-900">
-              {property.bedrooms !== null ? `${property.bedrooms} BHK` : 'N/A'}
-            </div>
-          </div>
-
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
-              <Bath className="w-3.5 h-3.5 text-[#9333ea]" />
-              <span>Bathrooms</span>
-            </div>
-            <div className="text-base font-extrabold text-slate-900">
-              {property.bathrooms !== null ? `${property.bathrooms} Baths` : 'N/A'}
+            <span className="text-slate-300 hidden sm:inline font-normal">|</span>
+            <div className="flex items-center gap-2">
+              <Car className="w-5 h-5 text-slate-700 shrink-0" />
+              <span>1 Covered Parking</span>
             </div>
           </div>
 
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
-              <Layers className="w-3.5 h-3.5 text-[#9333ea]" />
-              <span>Floor Level</span>
+          {/* 3-Column Specifications Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-slate-800 pt-2">
+            {/* Row 1 */}
+            <div className="space-y-1">
+              <div className="text-xs font-semibold text-slate-500">Carpet Area</div>
+              <div className="text-base font-black text-slate-900 flex items-center gap-1">
+                <span>{property.area} {property.area_unit}</span>
+                <ChevronDown className="w-4 h-4 text-slate-400" />
+              </div>
+              {property.price && (
+                <div className="text-xs text-slate-500 font-semibold">
+                  ₹{Math.round(property.price / property.area).toLocaleString('en-IN')}/sqft
+                </div>
+              )}
             </div>
-            <div className="text-base font-extrabold text-slate-900">
-              {property.floor_number !== null
-                ? `${property.floor_number} of ${property.total_floors || '-'}`
-                : 'Standalone'}
-            </div>
-          </div>
 
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
-              <Building className="w-3.5 h-3.5 text-[#9333ea]" />
-              <span>Furnishing</span>
+            <div className="space-y-1">
+              <div className="text-xs font-semibold text-slate-500">Developer / Seller</div>
+              <div className="text-base font-extrabold text-slate-900 underline underline-offset-4 decoration-slate-400 hover:decoration-[#9333ea] transition-colors cursor-pointer truncate">
+                {property.seller?.company_name || property.seller?.name || 'Expat Properties'}
+              </div>
             </div>
-            <div className="text-base font-extrabold text-slate-900 capitalize truncate">
-              {property.furnishing_status?.replace('-', ' ') || 'Unfurnished'}
-            </div>
-          </div>
 
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
-              <Calendar className="w-3.5 h-3.5 text-[#9333ea]" />
-              <span>Possession</span>
+            <div className="space-y-1">
+              <div className="text-xs font-semibold text-slate-500">Project</div>
+              <div className="text-base font-extrabold text-slate-900 underline underline-offset-4 decoration-slate-400 hover:decoration-[#9333ea] transition-colors cursor-pointer line-clamp-2">
+                {property.title}
+              </div>
             </div>
-            <div className="text-base font-extrabold text-slate-900 capitalize truncate">
-              {property.possession_status?.replace('-', ' ') || 'Ready to Move'}
+
+            {/* Row 2 */}
+            <div className="space-y-1">
+              <div className="text-xs font-semibold text-slate-500">Floor</div>
+              <div className="text-base font-black text-slate-900">
+                {property.floor_number !== null
+                  ? `${property.floor_number} (Out of ${property.total_floors || 14} Floors)`
+                  : 'Standalone'}
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <div className="text-xs font-semibold text-slate-500">Transaction Type</div>
+              <div className="text-base font-black text-slate-900">
+                {property.property_age && property.property_age <= 2 ? 'New Booking' : 'Resale'}
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <div className="text-xs font-semibold text-slate-500">Status</div>
+              <div className="text-base font-black text-slate-900 capitalize">
+                {property.possession_status?.replace('-', ' ') || 'Ready to Move'}
+              </div>
+            </div>
+
+            {/* Row 3 */}
+            <div className="space-y-1">
+              <div className="text-xs font-semibold text-slate-500">Furnishing</div>
+              <div className="text-base font-black text-slate-900 capitalize">
+                {property.furnishing_status?.replace('-', ' ') || 'Semi-Furnished'}
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <div className="text-xs font-semibold text-slate-500">Facing</div>
+              <div className="text-base font-black text-slate-900">
+                East / North-East
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <div className="text-xs font-semibold text-slate-500">Lifts</div>
+              <div className="text-base font-black text-slate-900">
+                2 Automatic Lifts
+              </div>
             </div>
           </div>
         </div>
