@@ -10,7 +10,7 @@ export interface User {
   license_number?: string;
   bio?: string;
   is_prime?: boolean;
-  prime_plan?: 'Free' | 'Basic' | 'Pro';
+  prime_plan?: 'Free' | 'Basic' | 'Pro' | 'Cancelled';
   created_at?: string;
 }
 
