@@ -82,10 +82,10 @@ export default function DashboardOverviewPage() {
             </div>
 
             <Link
-              href="/prime"
+              href="/dashboard/membership"
               className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black transition-colors shadow-sm cursor-pointer"
             >
-              <span>View Plan / Upgrade</span>
+              <span>View Plan & History</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

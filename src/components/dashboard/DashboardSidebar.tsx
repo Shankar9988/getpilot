@@ -13,7 +13,8 @@ import {
   User,
   Settings,
   LogOut,
-  ShieldCheck
+  ShieldCheck,
+  Crown
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
@@ -23,6 +24,7 @@ export default function DashboardSidebar() {
 
   const links = [
     { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
+    { label: 'My Prime Membership', href: '/dashboard/membership', icon: Crown },
     { label: 'My Properties', href: '/dashboard/properties', icon: Home },
     { label: 'Post New Property', href: '/dashboard/properties/create', icon: PlusCircle, highlight: true },
     { label: 'Saved Favorites', href: '/dashboard/favorites', icon: Heart },
