@@ -1,0 +1,419 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { propertiesApi } from '@/lib/api/properties';
+import PropertyGallery from '@/components/property/PropertyGallery';
+import PropertyAmenities from '@/components/property/PropertyAmenities';
+import VerificationSection from '@/components/property/VerificationSection';
+import InquiryForm from '@/components/property/InquiryForm';
+import PropertyCard from '@/components/property/PropertyCard';
+import PriceDisplay from '@/components/common/PriceDisplay';
+import Breadcrumbs from '@/components/common/Breadcrumbs';
+import {
+  MapPin,
+  BedDouble,
+  Bath,
+  Maximize2,
+  Building,
+  Layers,
+  Calendar,
+  Sparkles,
+  Phone,
+  ShieldCheck,
+  CheckCircle2,
+  Home,
+  ArrowLeft,
+  Loader2
+} from 'lucide-react';
+import { PropertyDetail } from '@/types/property';
+
+interface PropertyDetailClientProps {
+  slug: string;
+}
+
+export default function PropertyDetailClient({ slug }: PropertyDetailClientProps) {
+  const [property, setProperty] = useState<PropertyDetail | null>(null);
+  const [similarProperties, setSimilarProperties] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [notFoundState, setNotFoundState] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+    setNotFoundState(false);
+
+    // Call live API from browser for exact slug
+    propertiesApi.getBySlug(slug)
+      .then((res) => {
+        if (!isMounted) return;
+        if (res.data?.property) {
+          setProperty(res.data.property);
+          setSimilarProperties(res.data.similar_properties || []);
+        } else {
+          setNotFoundState(true);
+        }
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setNotFoundState(true);
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [slug]);
+
+  // Loading Skeleton
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 animate-pulse">
+        <div className="h-6 bg-slate-200 rounded-lg w-48" />
+        <div className="space-y-3">
+          <div className="h-8 bg-slate-200 rounded-xl w-3/4" />
+          <div className="h-4 bg-slate-200 rounded-lg w-1/2" />
+        </div>
+        <div className="aspect-16/9 bg-slate-200 rounded-3xl w-full h-[400px]" />
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="h-20 bg-slate-200 rounded-2xl" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Not Found View
+  if (notFoundState || !property) {
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 py-16 space-y-6 max-w-md mx-auto">
+        <div className="w-16 h-16 rounded-3xl bg-purple-50 text-[#9333ea] flex items-center justify-center shadow-inner">
+          <Home className="w-8 h-8" />
+        </div>
+        <div className="space-y-2">
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight">Property Not Found</h1>
+          <p className="text-xs text-slate-500 leading-relaxed">
+            The property listing you are looking for might have been sold, unlisted, or moved.
+          </p>
+        </div>
+        <Link
+          href="/buy"
+          className="inline-flex items-center gap-2 py-3 px-6 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white text-xs font-extrabold shadow-md hover:opacity-95 transition-all"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Browse All Verified Properties</span>
+        </Link>
+      </div>
+    );
+  }
+
+  const breadcrumbItems = [
+    { label: property.listing_type === 'sale' ? 'Buy' : property.listing_type === 'rent' ? 'Rent' : 'Commercial', href: `/${property.listing_type === 'sale' ? 'buy' : property.listing_type}` },
+    { label: property.city?.name || 'Properties', href: `/${property.listing_type === 'sale' ? 'buy' : property.listing_type}?city=${property.city?.slug}` },
+    { label: property.title },
+  ];
+
+  const locationFullText = [
+    property.address,
+    property.locality?.name,
+    property.city?.name,
+    property.state?.name,
+    property.pincode,
+  ].filter(Boolean).join(', ');
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': property.bedrooms ? 'SingleFamilyResidence' : 'RealEstateListing',
+    name: property.title,
+    description: property.description,
+    image: property.media?.map((m) => m.url) || [],
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: property.address,
+      addressLocality: property.locality?.name || property.city?.name,
+      addressRegion: property.state?.name,
+      postalCode: property.pincode,
+      addressCountry: 'IN',
+    },
+    offers: {
+      '@type': 'Offer',
+      price: property.price || property.monthly_rent,
+      priceCurrency: 'INR',
+      availability: 'https://schema.org/InStock',
+    },
+    numberOfRooms: property.bedrooms || undefined,
+    numberOfBathroomsTotal: property.bathrooms || undefined,
+    floorSize: {
+      '@type': 'QuantitativeValue',
+      value: property.area,
+      unitText: property.area_unit,
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+        {/* Breadcrumbs */}
+        <Breadcrumbs items={breadcrumbItems} />
+
+        {/* Top Header Section */}
+        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+          <div className="space-y-3 max-w-3xl">
+            {/* Badges */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-bold uppercase tracking-wider">
+                For {property.listing_type}
+              </span>
+              <span className="px-3 py-1 rounded-full bg-purple-50 text-purple-800 border border-purple-200 text-xs font-bold">
+                {property.property_type?.name || 'Property'}
+              </span>
+              {property.is_verified && (
+                <span className="px-3 py-1 rounded-full bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white text-xs font-bold flex items-center gap-1 shadow-xs">
+                  <ShieldCheck className="w-3.5 h-3.5" /> Verified Listing
+                </span>
+              )}
+              {property.is_featured && (
+                <span className="px-3 py-1 rounded-full bg-amber-500 text-white text-xs font-bold flex items-center gap-1">
+                  <Sparkles className="w-3.5 h-3.5" /> Featured
+                </span>
+              )}
+            </div>
+
+            {/* Title */}
+            <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+              {property.title}
+            </h1>
+
+            {/* Location */}
+            <div className="flex items-center gap-2 text-sm text-slate-600">
+              <MapPin className="w-4 h-4 text-[#9333ea] shrink-0" />
+              <span className="font-medium">{locationFullText}</span>
+            </div>
+          </div>
+
+          {/* Pricing */}
+          <div className="lg:text-right space-y-2 bg-white lg:bg-transparent p-5 lg:p-0 rounded-3xl border lg:border-0 border-slate-200/80 shrink-0">
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              {property.listing_type === 'rent' ? 'Expected Monthly Rent' : 'Quoted Price'}
+            </div>
+            <PriceDisplay
+              price={property.price}
+              monthlyRent={property.monthly_rent}
+              listingType={property.listing_type}
+              isNegotiable={property.is_negotiable}
+              size="xl"
+            />
+            {property.maintenance_charge && (
+              <div className="text-xs text-slate-500 font-medium">
+                + ₹{property.maintenance_charge.toLocaleString('en-IN')} / mo maintenance
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Gallery */}
+        <PropertyGallery media={property.media || []} title={property.title} />
+
+        {/* Key Specs */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs">
+          <div className="space-y-1">
+            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
+              <Maximize2 className="w-3.5 h-3.5 text-[#9333ea]" />
+              <span>Carpet Area</span>
+            </div>
+            <div className="text-base font-extrabold text-slate-900">
+              {property.area} <span className="text-xs font-medium text-slate-500">{property.area_unit}</span>
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
+              <BedDouble className="w-3.5 h-3.5 text-[#9333ea]" />
+              <span>Bedrooms</span>
+            </div>
+            <div className="text-base font-extrabold text-slate-900">
+              {property.bedrooms !== null ? `${property.bedrooms} BHK` : 'N/A'}
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
+              <Bath className="w-3.5 h-3.5 text-[#9333ea]" />
+              <span>Bathrooms</span>
+            </div>
+            <div className="text-base font-extrabold text-slate-900">
+              {property.bathrooms !== null ? `${property.bathrooms} Baths` : 'N/A'}
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
+              <Layers className="w-3.5 h-3.5 text-[#9333ea]" />
+              <span>Floor Level</span>
+            </div>
+            <div className="text-base font-extrabold text-slate-900">
+              {property.floor_number !== null
+                ? `${property.floor_number} of ${property.total_floors || '-'}`
+                : 'Standalone'}
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
+              <Building className="w-3.5 h-3.5 text-[#9333ea]" />
+              <span>Furnishing</span>
+            </div>
+            <div className="text-base font-extrabold text-slate-900 capitalize truncate">
+              {property.furnishing_status?.replace('-', ' ') || 'Unfurnished'}
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
+              <Calendar className="w-3.5 h-3.5 text-[#9333ea]" />
+              <span>Possession</span>
+            </div>
+            <div className="text-base font-extrabold text-slate-900 capitalize truncate">
+              {property.possession_status?.replace('-', ' ') || 'Ready to Move'}
+            </div>
+          </div>
+        </div>
+
+        {/* Content Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200/80 shadow-xs space-y-4">
+              <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">
+                Property Overview & Description
+              </h2>
+              <div className="prose prose-slate max-w-none text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+                {property.description}
+              </div>
+            </div>
+
+            <VerificationSection property={property} />
+
+            <PropertyAmenities amenities={property.amenities || []} />
+
+            <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200/80 shadow-xs space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">
+                  Location & Neighborhood
+                </h2>
+                <span className="text-xs font-semibold text-slate-500">
+                  Address details verified
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                  <div className="text-xs font-bold text-slate-400 uppercase">Street Address</div>
+                  <div className="text-sm font-bold text-slate-900">{property.address}</div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                  <div className="text-xs font-bold text-slate-400 uppercase">Locality / Sector</div>
+                  <div className="text-sm font-bold text-slate-900">{property.locality?.name || 'Prime Sector'}</div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                  <div className="text-xs font-bold text-slate-400 uppercase">City & State</div>
+                  <div className="text-sm font-bold text-slate-900">{property.city?.name}, {property.state?.name}</div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                  <div className="text-xs font-bold text-slate-400 uppercase">Postal Pincode</div>
+                  <div className="text-sm font-bold text-slate-900">{property.pincode}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            {property.seller && (
+              <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-14 h-14 rounded-2xl bg-purple-100 text-purple-900 font-extrabold text-lg flex items-center justify-center overflow-hidden shadow-xs shrink-0">
+                    {property.seller.avatar ? (
+                      <img src={property.seller.avatar} alt={property.seller.name} className="w-full h-full object-cover" />
+                    ) : (
+                      property.seller.name.charAt(0)
+                    )}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <h3 className="text-base font-bold text-slate-900">{property.seller.name}</h3>
+                      <CheckCircle2 className="w-4 h-4 text-[#9333ea] fill-purple-100" />
+                    </div>
+                    <p className="text-xs text-slate-500 capitalize">
+                      Verified {property.seller.role === 'agent' ? 'Real Estate Advisor' : 'Property Owner'}
+                    </p>
+                    {property.seller.company_name && (
+                      <p className="text-xs font-semibold text-[#9333ea] mt-0.5">
+                        {property.seller.company_name}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {property.seller.license_number && (
+                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-[11px] text-slate-600">
+                    <span className="font-bold text-slate-800">RERA No:</span> {property.seller.license_number}
+                  </div>
+                )}
+
+                {property.seller.phone && (
+                  <div className="pt-2 flex flex-col gap-2">
+                    <a
+                      href={`tel:${property.seller.phone}`}
+                      className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 text-xs font-extrabold border border-purple-200 transition-colors"
+                    >
+                      <Phone className="w-4 h-4" />
+                      <span>Call {property.seller.phone}</span>
+                    </a>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="sticky top-28">
+              <InquiryForm
+                propertyId={property.id}
+                propertyTitle={property.title}
+                sellerName={property.seller?.name}
+                sellerCompany={property.seller?.company_name}
+              />
+            </div>
+          </div>
+        </div>
+
+        {similarProperties.length > 0 && (
+          <section className="pt-12 space-y-6 border-t border-slate-200">
+            <div className="space-y-1">
+              <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                Similar Verified Properties
+              </h2>
+              <p className="text-xs text-slate-500">
+                Other residences in {property.city?.name} matching this segment.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {similarProperties.map((p) => (
+                <PropertyCard key={p.id} property={p} />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </>
+  );
+}
