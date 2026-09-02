@@ -42,20 +42,6 @@ export default function UserMembershipHistoryPage() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-2 border border-purple-500/20">
-        <div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider">
-          <Crown className="w-4 h-4 fill-amber-400" />
-          <span>My Membership & Subscriptions</span>
-        </div>
-        <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
-          Active Plan & Payment History
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-300">
-          View your currently active GetPlot Prime plan, validity dates, remaining days, and invoice receipt history.
-        </p>
-      </div>
-
       {/* Active Plan Details Card */}
       <div className="bg-gradient-to-br from-[#2e1065] via-[#1e1035] to-[#0f0720] rounded-3xl p-6 sm:p-8 border border-purple-500/30 text-white shadow-xl space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-purple-500/20 pb-6">
