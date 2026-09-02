@@ -6,6 +6,7 @@ import { propertiesApi } from '@/lib/api/properties';
 import PropertyGallery from '@/components/property/PropertyGallery';
 import PropertyAmenities from '@/components/property/PropertyAmenities';
 import MoreDetailsSection from '@/components/property/MoreDetailsSection';
+import PropertyReviewsSection from '@/components/property/PropertyReviewsSection';
 import InquiryForm from '@/components/property/InquiryForm';
 import PropertyCard from '@/components/property/PropertyCard';
 import PriceDisplay from '@/components/common/PriceDisplay';
@@ -346,6 +347,8 @@ export default function PropertyDetailClient({ slug }: PropertyDetailClientProps
             <MoreDetailsSection property={property} />
 
             <PropertyAmenities amenities={property.amenities || []} propertyTitle={property.title} />
+
+            <PropertyReviewsSection propertyTitle={property.title} />
           </div>
 
           <div className="space-y-6">
