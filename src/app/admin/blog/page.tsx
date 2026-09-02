@@ -83,7 +83,7 @@ export default function AdminBlogPage() {
 
         <button
           onClick={() => setShowCreateModal(true)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-slate-900 hover:bg-emerald-600 text-white text-xs font-bold shadow-md transition-colors"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white text-xs font-bold shadow-md transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>New Article</span>
@@ -104,7 +104,7 @@ export default function AdminBlogPage() {
                   className="w-full h-40 rounded-2xl object-cover border border-slate-200"
                 />
                 <div>
-                  <span className="text-[10px] font-bold text-emerald-700 uppercase">
+                  <span className="text-[10px] font-bold text-[#9333ea] uppercase">
                     {b.category?.name || 'Market Guide'}
                   </span>
                   <h3 className="text-sm font-bold text-slate-900 line-clamp-1">{b.title}</h3>
@@ -116,7 +116,7 @@ export default function AdminBlogPage() {
                 <span className="text-slate-400 font-medium">{b.read_time}</span>
                 <Link
                   href={`/blog/${b.slug}`}
-                  className="text-emerald-700 hover:underline flex items-center gap-1 font-bold"
+                  className="text-[#9333ea] hover:underline flex items-center gap-1 font-bold"
                 >
                   <span>View Public Post</span>
                   <ExternalLink className="w-3 h-3" />
@@ -154,7 +154,7 @@ export default function AdminBlogPage() {
                   placeholder="e.g. Navigating Real Estate Appreciation in 2026"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 text-sm text-slate-900 outline-none focus:border-emerald-500"
+                  className="w-full p-2.5 rounded-xl border border-slate-200 text-sm text-slate-900 outline-none focus:border-[#9333ea]"
                 />
               </div>
 
@@ -228,7 +228,7 @@ export default function AdminBlogPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white text-xs font-bold transition-colors disabled:opacity-50"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white text-xs font-bold transition-all disabled:opacity-50"
                 >
                   {submitting ? 'Publishing...' : 'Publish Article'}
                 </button>

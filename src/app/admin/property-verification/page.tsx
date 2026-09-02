@@ -95,7 +95,7 @@ export default function AdminPropertyVerificationPage() {
                 }}
                 className={`p-5 rounded-3xl border transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
                   selectedProperty?.id === prop.id
-                    ? 'border-emerald-600 bg-emerald-50/50 shadow-md ring-2 ring-emerald-600/20'
+                    ? 'border-[#9333ea] bg-purple-50/50 shadow-md ring-2 ring-[#9333ea]/20'
                     : 'border-slate-200/80 bg-white hover:border-slate-300'
                 }`}
               >
@@ -149,7 +149,7 @@ export default function AdminPropertyVerificationPage() {
                               prev.includes(b.id) ? prev.filter((x) => x !== b.id) : [...prev, b.id]
                             );
                           }}
-                          className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500 accent-emerald-600"
+                          className="w-4 h-4 text-[#9333ea] rounded focus:ring-[#9333ea] accent-[#9333ea]"
                         />
                         <span>{b.label}</span>
                       </label>
@@ -165,7 +165,7 @@ export default function AdminPropertyVerificationPage() {
                     value={remarks}
                     onChange={(e) => setRemarks(e.target.value)}
                     placeholder="Enter audit notes..."
-                    className="w-full p-2.5 rounded-xl border border-slate-200 text-xs text-slate-900 outline-none focus:border-emerald-500"
+                    className="w-full p-2.5 rounded-xl border border-slate-200 text-xs text-slate-900 outline-none focus:border-[#9333ea]"
                   />
                 </div>
 
@@ -174,7 +174,7 @@ export default function AdminPropertyVerificationPage() {
                   <button
                     disabled={submitting}
                     onClick={() => handleVerify('verified')}
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md transition-colors disabled:opacity-50"
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white text-xs font-bold shadow-md transition-all disabled:opacity-50"
                   >
                     <ShieldCheck className="w-4 h-4" />
                     <span>Approve & Issue Verified Badge</span>

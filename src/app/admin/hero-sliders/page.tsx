@@ -149,7 +149,7 @@ export default function AdminHeroSlidersPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-indigo-600">
+          <div className="flex items-center gap-2 text-[#9333ea]">
             <Images className="w-5 h-5" />
             <span className="text-xs font-black uppercase tracking-wider">CMS Management</span>
           </div>
@@ -163,7 +163,7 @@ export default function AdminHeroSlidersPage() {
 
         <button
           onClick={openCreateModal}
-          className="btn-dark-navy px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all"
+          className="px-5 py-3 rounded-2xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white hover:opacity-95 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>Add New Slide</span>
@@ -472,7 +472,7 @@ export default function AdminHeroSlidersPage() {
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className="btn-dark-navy px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 shadow-md"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white hover:opacity-95 text-xs font-bold flex items-center gap-2 shadow-md transition-all disabled:opacity-50"
                 >
                   {isSaving ? <LoadingSpinner /> : null}
                   <span>{editingSlide ? 'Update Slide' : 'Create Slide'}</span>

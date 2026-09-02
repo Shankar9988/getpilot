@@ -129,7 +129,7 @@ export default function AdminPropertiesPage() {
             placeholder="Search title, city..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 rounded-xl border border-slate-200 text-xs text-slate-900 outline-none focus:border-emerald-500"
+            className="w-full pl-9 pr-3 py-1.5 rounded-xl border border-slate-200 text-xs text-slate-900 outline-none focus:border-[#9333ea]"
           />
         </form>
       </div>
@@ -155,7 +155,7 @@ export default function AdminPropertiesPage() {
                       </span>
                       <span className="text-xs text-slate-400 font-semibold uppercase">For {prop.listing_type}</span>
                       {prop.is_verified && (
-                        <span className="text-emerald-700 text-xs font-bold flex items-center gap-1">
+                        <span className="text-[#9333ea] text-xs font-bold flex items-center gap-1">
                           <ShieldCheck className="w-3.5 h-3.5" /> Verified
                         </span>
                       )}
@@ -192,7 +192,7 @@ export default function AdminPropertiesPage() {
                   {prop.status !== 'published' && (
                     <button
                       onClick={() => handleUpdateStatus(prop.id, 'published')}
-                      className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition-colors"
+                      className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white text-xs font-bold shadow-xs transition-all"
                     >
                       Approve & Publish
                     </button>

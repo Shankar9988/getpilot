@@ -93,7 +93,7 @@ export default function AdminUsersPage() {
             placeholder="Search by name, email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 rounded-xl border border-slate-200 text-xs text-slate-900 outline-none focus:border-emerald-500"
+            className="w-full pl-9 pr-3 py-1.5 rounded-xl border border-slate-200 text-xs text-slate-900 outline-none focus:border-[#9333ea]"
           />
         </form>
       </div>
@@ -107,7 +107,7 @@ export default function AdminUsersPage() {
             {users.map((u) => (
               <div key={u.id} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50/50 transition-colors">
                 <div className="flex items-center gap-3.5">
-                  <div className="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm shrink-0 overflow-hidden">
+                  <div className="w-11 h-11 rounded-2xl bg-purple-100 text-purple-900 font-bold flex items-center justify-center text-sm shrink-0 overflow-hidden">
                     {u.avatar ? (
                       <img src={u.avatar} alt={u.name} className="w-full h-full object-cover" />
                     ) : (
@@ -128,7 +128,7 @@ export default function AdminUsersPage() {
                     </div>
                     <div className="text-xs text-slate-500">{u.email} • {u.phone || 'No phone'}</div>
                     {u.company_name && (
-                      <div className="text-[11px] font-semibold text-emerald-700">{u.company_name}</div>
+                      <div className="text-[11px] font-semibold text-[#9333ea]">{u.company_name}</div>
                     )}
                   </div>
                 </div>

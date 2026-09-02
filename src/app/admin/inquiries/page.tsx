@@ -42,7 +42,7 @@ export default function AdminInquiriesPage() {
                   <h3 className="text-sm font-bold text-slate-900">{inq.name}</h3>
                   <div className="text-xs text-slate-500">{inq.email} • {inq.phone}</div>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-emerald-50 text-emerald-800 border border-emerald-200">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-purple-50 text-purple-900 border border-purple-200">
                   {inq.status}
                 </span>
               </div>
@@ -56,7 +56,7 @@ export default function AdminInquiriesPage() {
                   <span className="truncate max-w-sm">Property: {inq.property.title}</span>
                   <Link
                     href={`/property/${inq.property.slug}`}
-                    className="text-emerald-700 hover:underline flex items-center gap-1 shrink-0"
+                    className="text-[#9333ea] hover:underline flex items-center gap-1 shrink-0"
                   >
                     <span>View Listing</span>
                     <ExternalLink className="w-3 h-3" />

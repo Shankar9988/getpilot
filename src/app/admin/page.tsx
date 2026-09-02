@@ -31,19 +31,19 @@ export default function AdminDashboardPage() {
   const stats = data?.stats || {};
 
   const statCards = [
-    { label: 'Total Listed Properties', value: stats.total_properties || 0, icon: Building, color: 'text-slate-900', bg: 'bg-slate-100' },
-    { label: 'Verified Properties', value: stats.verified_properties || 0, icon: ShieldCheck, color: 'text-emerald-700', bg: 'bg-emerald-50' },
+    { label: 'Total Listed Properties', value: stats.total_properties || 0, icon: Building, color: 'text-purple-700', bg: 'bg-purple-50' },
+    { label: 'Verified Properties', value: stats.verified_properties || 0, icon: ShieldCheck, color: 'text-purple-700', bg: 'bg-purple-50' },
     { label: 'Pending Verification Review', value: stats.pending_properties || 0, icon: Clock, color: 'text-amber-700', bg: 'bg-amber-50' },
-    { label: 'Registered Users & Agents', value: stats.total_users || 0, icon: Users, color: 'text-sky-700', bg: 'bg-sky-50' },
+    { label: 'Registered Users & Agents', value: stats.total_users || 0, icon: Users, color: 'text-purple-700', bg: 'bg-purple-50' },
     { label: 'Total Inquiries Generated', value: stats.total_inquiries || 0, icon: MessageSquare, color: 'text-purple-700', bg: 'bg-purple-50' },
-    { label: 'Published Blogs & CMS', value: stats.total_blogs || 0, icon: FileText, color: 'text-rose-700', bg: 'bg-rose-50' },
+    { label: 'Published Blogs & CMS', value: stats.total_blogs || 0, icon: FileText, color: 'text-purple-700', bg: 'bg-purple-50' },
   ];
 
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-2">
-        <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-500/30">
+      <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-2 border border-purple-500/20">
+        <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-wider border border-purple-500/30">
           Superadmin Control Center
         </span>
         <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
@@ -78,7 +78,7 @@ export default function AdminDashboardPage() {
         <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <h2 className="text-base font-bold text-slate-900">Recent Property Listings</h2>
-            <Link href="/admin/properties" className="text-xs font-bold text-emerald-700 hover:underline flex items-center gap-1">
+            <Link href="/admin/properties" className="text-xs font-bold text-[#9333ea] hover:underline flex items-center gap-1">
               <span>View All</span>
               <ArrowRight className="w-3 h-3" />
             </Link>
@@ -103,21 +103,21 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Verification Alert Callout */}
-        <div className="bg-emerald-950 text-emerald-100 rounded-3xl p-6 border border-emerald-800 shadow-xs flex flex-col justify-between space-y-4">
+        <div className="bg-gradient-to-br from-[#2e1065] via-[#1e1035] to-[#0f0720] text-purple-100 rounded-3xl p-6 border border-purple-500/30 shadow-md flex flex-col justify-between space-y-4">
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase">
-              <ShieldCheck className="w-4 h-4" />
+            <div className="flex items-center gap-2 text-purple-300 text-xs font-bold uppercase">
+              <ShieldCheck className="w-4 h-4 text-purple-400" />
               <span>Verification Desk</span>
             </div>
             <h3 className="text-lg font-bold text-white">Pending Audits Queue</h3>
-            <p className="text-xs text-emerald-200/80 leading-relaxed">
-              Ensure all submissions meet Estatify&apos;s rigorous 4-step trust standard: physical site verification, owner identity, sanctioned floor plan, and clear encumbrance checks.
+            <p className="text-xs text-purple-200/80 leading-relaxed">
+              Ensure all submissions meet GetPlot&apos;s rigorous 4-step trust standard: physical site verification, owner identity, sanctioned floor plan, and clear encumbrance checks.
             </p>
           </div>
 
           <Link
             href="/admin/property-verification"
-            className="inline-flex items-center justify-center gap-2 py-3 px-5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold transition-colors shadow-md"
+            className="inline-flex items-center justify-center gap-2 py-3 px-5 rounded-2xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white text-xs font-extrabold transition-all shadow-md"
           >
             <span>Open Verification Queue ({stats.pending_properties || 0} Pending)</span>
             <ArrowRight className="w-4 h-4" />

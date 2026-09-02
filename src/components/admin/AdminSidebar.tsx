@@ -37,12 +37,12 @@ export default function AdminSidebar() {
       <div className="space-y-6">
         {/* Header Badge */}
         <div className="flex items-center gap-3 p-3 rounded-2xl bg-slate-800/80 border border-slate-700">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-bold shadow-md shadow-emerald-950/40">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white flex items-center justify-center font-bold shadow-md shadow-purple-950/40">
             <ShieldAlert className="w-5 h-5" />
           </div>
           <div>
             <div className="text-xs font-black text-white tracking-tight uppercase">Admin Console</div>
-            <div className="text-[10px] text-emerald-400 font-semibold">{user?.name}</div>
+            <div className="text-[10px] text-purple-300 font-semibold">{user?.name || 'GetPlot Admin'}</div>
           </div>
         </div>
 
@@ -56,9 +56,9 @@ export default function AdminSidebar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-colors ${
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
                   active
-                    ? 'bg-emerald-600 text-white shadow-sm'
+                    ? 'bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white shadow-md shadow-purple-900/40'
                     : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                 }`}
               >
