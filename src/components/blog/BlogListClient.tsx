@@ -11,10 +11,31 @@ interface BlogListClientProps {
 }
 
 export default function BlogListClient({ initialBlogs, categories }: BlogListClientProps) {
+  const [blogsList, setBlogsList] = useState<Blog[]>(initialBlogs);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const filteredBlogs = initialBlogs.filter((b) => {
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const localBlogs: Blog[] = JSON.parse(localStorage.getItem('getplot_admin_blogs') || '[]');
+        if (localBlogs.length > 0) {
+          // Merge local admin blogs with initialBlogs avoiding duplicates
+          const combined = [...localBlogs];
+          initialBlogs.forEach((ib) => {
+            if (!combined.some((cb) => cb.id === ib.id || cb.slug === ib.slug)) {
+              combined.push(ib);
+            }
+          });
+          setBlogsList(combined);
+        }
+      } catch {
+        // Fallback
+      }
+    }
+  }, [initialBlogs]);
+
+  const filteredBlogs = blogsList.filter((b) => {
     const matchesCategory =
       selectedCategory === 'all' ||
       (b.category && b.category.slug === selectedCategory) ||

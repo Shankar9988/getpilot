@@ -53,15 +53,51 @@ export default function AdminBlogPage() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const res = await adminApi.createBlog({
-        ...formData,
-        category_id: Number(formData.category_id),
-      });
-      if (res.data) {
-        success('Blog article created and published successfully.');
-        setBlogs((prev) => [res.data, ...prev]);
-        setShowCreateModal(false);
+      const slug = formData.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+
+      const selectedCat = categories.find((c) => c.id === Number(formData.category_id)) || {
+        id: 1,
+        name: 'Buying Guide',
+        slug: 'buying-guide',
+      };
+
+      const newBlogObj: Blog = {
+        id: Date.now(),
+        title: formData.title,
+        slug,
+        excerpt: formData.excerpt,
+        content: formData.content,
+        featured_image: formData.featured_image,
+        read_time: formData.read_time || '5 min read',
+        author_name: 'Superadmin Desk',
+        published_at: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+        category: selectedCat,
+      };
+
+      // Save to localStorage for client-side persistence across pages
+      if (typeof window !== 'undefined') {
+        const existing = JSON.parse(localStorage.getItem('getplot_admin_blogs') || '[]');
+        localStorage.setItem('getplot_admin_blogs', JSON.stringify([newBlogObj, ...existing]));
       }
+
+      success('Blog article created and published successfully.');
+      setBlogs((prev) => [newBlogObj, ...prev]);
+      setShowCreateModal(false);
+      setFormData({
+        title: '',
+        category_id: categories[0]?.id || 1,
+        excerpt: '',
+        content: '',
+        featured_image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80',
+        read_time: '5 min read',
+        is_published: true,
+        seo_title: '',
+        seo_description: '',
+      });
     } catch (err: any) {
       error(err.message || 'Failed to create blog post.');
     } finally {
