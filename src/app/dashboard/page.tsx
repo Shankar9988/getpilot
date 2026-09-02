@@ -17,7 +17,8 @@ import {
   PlusCircle,
   ArrowRight,
   Eye,
-  ExternalLink
+  ExternalLink,
+  Crown
 } from 'lucide-react';
 import PriceDisplay from '@/components/common/PriceDisplay';
 
@@ -57,7 +58,7 @@ export default function DashboardOverviewPage() {
     <div className="space-y-8">
       {/* Welcome Banner */}
       <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xl border border-purple-500/20">
-        <div className="space-y-2">
+        <div className="space-y-3">
           <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-wider border border-purple-500/30">
             Account Dashboard
           </span>
@@ -67,6 +68,27 @@ export default function DashboardOverviewPage() {
           <p className="text-xs sm:text-sm text-slate-300">
             Manage your verified real estate listings, track buyer inquiries, and update your profile.
           </p>
+
+          {/* Prime Plan Status & Days Counter Bar */}
+          <div className="pt-2 flex flex-wrap items-center gap-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-purple-950/80 border border-purple-500/40 text-purple-200 text-xs font-bold shadow-xs">
+              <Crown className="w-4 h-4 text-amber-400 fill-amber-400" />
+              <span>Active Plan: <strong className="text-amber-300">{user?.prime_plan || 'Pro'} Prime</strong></span>
+            </div>
+
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/90 border border-slate-700 text-slate-300 text-xs font-semibold">
+              <Clock className="w-3.5 h-3.5 text-purple-400" />
+              <span>304 Days Remaining (Valid till 01/01/2027)</span>
+            </div>
+
+            <Link
+              href="/prime"
+              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black transition-colors shadow-sm cursor-pointer"
+            >
+              <span>View Plan / Upgrade</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
 
         <Link
