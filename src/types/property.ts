@@ -63,6 +63,11 @@ export interface Property {
   bedrooms: number | null;
   bathrooms: number | null;
   balconies: number | null;
+  parking_spots?: string | null;
+  transaction_type?: string | null;
+  additional_rooms?: string | null;
+  facing?: string | null;
+  lifts_count?: number | null;
   furnishing_status: FurnishingStatus;
   possession_status?: string;
   address: string;

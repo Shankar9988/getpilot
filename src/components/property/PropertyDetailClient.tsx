@@ -245,7 +245,7 @@ export default function PropertyDetailClient({ slug }: PropertyDetailClientProps
             <span className="text-slate-300 hidden sm:inline font-normal">|</span>
             <div className="flex items-center gap-2">
               <Car className="w-5 h-5 text-slate-700 shrink-0" />
-              <span>1 Covered Parking</span>
+              <span>{property.parking_spots || '1 Covered Parking'}</span>
             </div>
           </div>
 
@@ -290,9 +290,9 @@ export default function PropertyDetailClient({ slug }: PropertyDetailClientProps
             </div>
 
             <div className="space-y-1">
-              <div className="text-xs font-semibold text-slate-500">Transaction Type</div>
+              <div className="text-xs font-semibold text-slate-500">Transaction type</div>
               <div className="text-base font-black text-slate-900">
-                {property.property_age && property.property_age <= 2 ? 'New Booking' : 'Resale'}
+                {property.transaction_type || (property.property_age && property.property_age <= 2 ? 'New Booking' : 'Resale')}
               </div>
             </div>
 
@@ -305,23 +305,23 @@ export default function PropertyDetailClient({ slug }: PropertyDetailClientProps
 
             {/* Row 3 */}
             <div className="space-y-1">
-              <div className="text-xs font-semibold text-slate-500">Furnishing</div>
-              <div className="text-base font-black text-slate-900 capitalize">
-                {property.furnishing_status?.replace('-', ' ') || 'Semi-Furnished'}
+              <div className="text-xs font-semibold text-slate-500">Additional Rooms</div>
+              <div className="text-base font-black text-slate-900">
+                {property.additional_rooms || '1 Store Room'}
               </div>
             </div>
 
             <div className="space-y-1">
               <div className="text-xs font-semibold text-slate-500">Facing</div>
               <div className="text-base font-black text-slate-900">
-                East / North-East
+                {property.facing || 'West'}
               </div>
             </div>
 
             <div className="space-y-1">
               <div className="text-xs font-semibold text-slate-500">Lifts</div>
               <div className="text-base font-black text-slate-900">
-                2 Automatic Lifts
+                {property.lifts_count !== undefined && property.lifts_count !== null ? property.lifts_count : 1}
               </div>
             </div>
           </div>
