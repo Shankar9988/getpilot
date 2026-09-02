@@ -163,7 +163,14 @@ export default function Header() {
                 className="flex items-center gap-1.5 text-white hover:text-amber-200 transition-colors py-1"
               >
                 <UserIcon className="w-4 h-4" />
-                <span>{user ? user.name.split(' ')[0] : 'Login'}</span>
+                <span className="flex items-center gap-1">
+                  {user ? user.name.split(' ')[0] : 'Login'}
+                  {(user?.is_prime || user?.prime_plan) && (
+                    <span title={`GetPlot Prime (${user.prime_plan || 'Active'})`}>
+                      <Crown className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
+                    </span>
+                  )}
+                </span>
                 <ChevronDown className="w-3 h-3 text-white/80" />
               </button>
 
@@ -172,8 +179,22 @@ export default function Header() {
                   {user ? (
                     <>
                       <div className="px-3 py-2 border-b border-slate-100 mb-1">
-                        <span className="block text-xs font-black text-slate-900">{user.name}</span>
-                        <span className="block text-[10px] font-bold text-slate-400 uppercase">{user.role}</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs font-black text-slate-900">{user.name}</span>
+                          {(user?.is_prime || user?.prime_plan) && (
+                            <span title="Prime Member">
+                              <Crown className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="block text-[10px] font-bold text-slate-400 uppercase">{user.role}</span>
+                          {(user?.is_prime || user?.prime_plan) && (
+                            <span className="text-[10px] font-extrabold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
+                              {user.prime_plan || 'Pro'} Prime
+                            </span>
+                          )}
+                        </div>
                       </div>
 
                       {user.role === 'admin' && (

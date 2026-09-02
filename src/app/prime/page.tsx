@@ -2,14 +2,20 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Crown, Check, X, PhoneCall, Sparkles, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Crown, Check, X, PhoneCall, Sparkles, ArrowRight, ShieldCheck, CheckCircle2, CreditCard, Lock, QrCode } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 
 export default function PrimeMembershipPage() {
+  const router = useRouter();
+  const { user, updateUserLocalState } = useAuth();
+  const { success, error } = useToast();
+
   const [selectedPlan, setSelectedPlan] = useState<'free' | 'basic' | 'pro'>('pro');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const { success } = useToast();
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [paymentStep, setPaymentStep] = useState<'select_method' | 'processing' | 'success'>('select_method');
+  const [paymentMethod, setPaymentMethod] = useState<'upi' | 'card' | 'netbanking'>('upi');
 
   const plans = {
     free: { name: 'Free', price: '₹ 0', original: '', discount: '', limit: 'Max 2 Listings', validity: '1 Year' },
@@ -18,16 +24,31 @@ export default function PrimeMembershipPage() {
   };
 
   const handleCheckout = () => {
-    setIsModalOpen(true);
+    if (!user) {
+      error('Please login first to subscribe to GetPlot Prime.');
+      router.push('/login?redirect=/prime');
+      return;
+    }
+    setPaymentStep('select_method');
+    setIsPaymentModalOpen(true);
   };
 
-  const handleConfirmPlan = () => {
-    setIsSuccess(true);
+  const handleProcessPayment = () => {
+    setPaymentStep('processing');
     setTimeout(() => {
-      setIsSuccess(false);
-      setIsModalOpen(false);
-      success(`Congratulations! You have successfully subscribed to the ${plans[selectedPlan].name} Prime Plan.`);
-    }, 1800);
+      // Activate Prime on User state!
+      const planName = selectedPlan === 'free' ? 'Free' : selectedPlan === 'basic' ? 'Basic' : 'Pro';
+      updateUserLocalState({
+        is_prime: true,
+        prime_plan: planName,
+      });
+
+      setPaymentStep('success');
+      setTimeout(() => {
+        setIsPaymentModalOpen(false);
+        success(`Congratulations ${user?.name}! Your ${planName} Prime Membership is active! 👑`);
+      }, 2000);
+    }, 2200);
   };
 
   return (
@@ -51,6 +72,15 @@ export default function PrimeMembershipPage() {
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>100% Transparency Promise • Direct Owner & Buyer Network</span>
           </p>
+
+          {user?.is_prime && (
+            <div className="pt-2">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/20 border border-amber-300/40 text-amber-300 text-xs font-extrabold shadow-md">
+                <Crown className="w-4 h-4 fill-amber-400" />
+                <span>Active Member: {user.prime_plan || 'Pro'} Prime ({user.name})</span>
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Main Comparison Glass Card */}
@@ -212,67 +242,134 @@ export default function PrimeMembershipPage() {
         </div>
       </main>
 
-      {/* CHECKOUT MODAL POPUP */}
-      {isModalOpen && (
+      {/* RAZORPAY / PAYMENT GATEWAY SIMULATOR MODAL */}
+      {isPaymentModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
-            onClick={() => setIsModalOpen(false)}
+            onClick={() => setIsPaymentModalOpen(false)}
             className="fixed inset-0 bg-slate-950/80 backdrop-blur-md animate-in fade-in"
           />
 
           <div className="relative bg-[#131b2e] rounded-3xl border border-slate-800 w-full max-w-md p-6 sm:p-8 space-y-6 z-10 text-white shadow-2xl animate-in zoom-in-95 duration-200">
-            {isSuccess ? (
+            {paymentStep === 'processing' ? (
+              <div className="py-12 text-center space-y-4">
+                <div className="w-16 h-16 rounded-full border-4 border-purple-500 border-t-transparent animate-spin mx-auto" />
+                <h3 className="text-lg font-black text-white">Processing Payment...</h3>
+                <p className="text-xs text-slate-400">Secure 256-bit SSL Gateway • Activating Prime Subscription</p>
+              </div>
+            ) : paymentStep === 'success' ? (
               <div className="py-8 text-center space-y-3">
-                <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-8 h-8" />
+                <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto">
+                  <CheckCircle2 className="w-10 h-10" />
                 </div>
-                <h3 className="text-xl font-black text-white">Plan Activated!</h3>
-                <p className="text-xs text-slate-400">Your {plans[selectedPlan].name} Prime Membership plan is active for 1 Year.</p>
+                <h3 className="text-2xl font-black text-white">Payment Successful!</h3>
+                <div className="flex items-center justify-center gap-1.5 text-amber-400 font-extrabold text-sm pt-1">
+                  <Crown className="w-5 h-5 fill-amber-400" />
+                  <span>{plans[selectedPlan].name} Prime Member Badge Issued</span>
+                </div>
+                <p className="text-xs text-slate-400">Your account is now upgraded with {plans[selectedPlan].limit} for 1 Year.</p>
               </div>
             ) : (
               <>
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase">
-                    <Crown className="w-4 h-4 fill-amber-400" />
-                    <span>Confirm Subscription</span>
+                {/* Header */}
+                <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-1.5 text-amber-400 text-xs font-bold uppercase">
+                      <Lock className="w-3.5 h-3.5" />
+                      <span>Razorpay Secure Gateway</span>
+                    </div>
+                    <h3 className="text-xl font-black text-white">
+                      Subscribe to {plans[selectedPlan].name} Prime ({plans[selectedPlan].price})
+                    </h3>
                   </div>
-                  <h3 className="text-xl font-black text-white">
-                    {plans[selectedPlan].name} Plan ({plans[selectedPlan].price})
-                  </h3>
-                  <p className="text-xs text-slate-400">
-                    Validity: {plans[selectedPlan].validity} • {plans[selectedPlan].limit}
-                  </p>
+                  <button
+                    onClick={() => setIsPaymentModalOpen(false)}
+                    className="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center text-xs"
+                  >
+                    ✕
+                  </button>
                 </div>
 
+                {/* Account Details */}
+                <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1 text-xs">
+                  <div className="flex justify-between text-slate-400">
+                    <span>Subscriber Account</span>
+                    <span className="text-white font-bold">{user?.name}</span>
+                  </div>
+                  <div className="flex justify-between text-slate-400">
+                    <span>Email Address</span>
+                    <span className="text-slate-300">{user?.email}</span>
+                  </div>
+                </div>
+
+                {/* Payment Method Selector */}
+                <div className="space-y-2">
+                  <label className="block text-xs font-bold text-slate-300">Select Payment Method</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('upi')}
+                      className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${
+                        paymentMethod === 'upi'
+                          ? 'border-purple-500 bg-purple-950/40 text-purple-300 ring-2 ring-purple-500/30'
+                          : 'border-slate-800 bg-slate-900/50 text-slate-400 hover:border-slate-700'
+                      }`}
+                    >
+                      <QrCode className="w-4 h-4 text-emerald-400" />
+                      <span>GPay / PhonePe</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('card')}
+                      className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${
+                        paymentMethod === 'card'
+                          ? 'border-purple-500 bg-purple-950/40 text-purple-300 ring-2 ring-purple-500/30'
+                          : 'border-slate-800 bg-slate-900/50 text-slate-400 hover:border-slate-700'
+                      }`}
+                    >
+                      <CreditCard className="w-4 h-4 text-cyan-400" />
+                      <span>Credit/Debit</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('netbanking')}
+                      className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1.5 transition-all ${
+                        paymentMethod === 'netbanking'
+                          ? 'border-purple-500 bg-purple-950/40 text-purple-300 ring-2 ring-purple-500/30'
+                          : 'border-slate-800 bg-slate-900/50 text-slate-400 hover:border-slate-700'
+                      }`}
+                    >
+                      <ShieldCheck className="w-4 h-4 text-amber-400" />
+                      <span>Net Banking</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Amount Summary */}
                 <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2 text-xs">
                   <div className="flex justify-between text-slate-400">
-                    <span>Plan Base Price</span>
+                    <span>{plans[selectedPlan].name} Membership (1 Year)</span>
                     <span className="text-white font-bold">{plans[selectedPlan].price}</span>
                   </div>
                   <div className="flex justify-between text-slate-400">
-                    <span>Validity Period</span>
-                    <span className="text-emerald-400 font-bold">12 Months</span>
+                    <span>GST (18% Included)</span>
+                    <span className="text-slate-400">₹ 0</span>
                   </div>
-                  <div className="border-t border-slate-800 pt-2 flex justify-between font-bold text-sm text-white">
-                    <span>Total Payable</span>
+                  <div className="border-t border-slate-800 pt-2 flex justify-between font-extrabold text-sm text-white">
+                    <span>Total Amount Payable</span>
                     <span className="text-amber-400">{plans[selectedPlan].price}</span>
                   </div>
                 </div>
 
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => setIsModalOpen(false)}
-                    className="w-1/2 py-3 rounded-xl border border-slate-700 text-xs font-bold text-slate-300 hover:bg-slate-800"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleConfirmPlan}
-                    className="w-1/2 py-3 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white font-extrabold text-xs shadow-lg hover:opacity-95"
-                  >
-                    Activate Now
-                  </button>
-                </div>
+                {/* Submit Payment */}
+                <button
+                  onClick={handleProcessPayment}
+                  className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white font-extrabold text-sm shadow-xl shadow-purple-950/60 transition-all active:scale-[0.99] cursor-pointer"
+                >
+                  Pay {plans[selectedPlan].price} & Activate Prime 👑
+                </button>
               </>
             )}
           </div>

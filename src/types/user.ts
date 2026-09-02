@@ -9,6 +9,8 @@ export interface User {
   company_name?: string;
   license_number?: string;
   bio?: string;
+  is_prime?: boolean;
+  prime_plan?: 'Free' | 'Basic' | 'Pro';
   created_at?: string;
 }
 
