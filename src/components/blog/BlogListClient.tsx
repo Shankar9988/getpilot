@@ -51,37 +51,7 @@ export default function BlogListClient({ initialBlogs, categories }: BlogListCli
 
   return (
     <div className="space-y-8">
-      {/* Header Banner */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-[#2e1065] via-[#1e1035] to-[#0f0720] text-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-purple-500/30 text-center max-w-5xl mx-auto space-y-4">
-        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white text-xs font-black uppercase tracking-wider shadow-md">
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>GetPlot Knowledge Hub</span>
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-            Real Estate Insights & Buyer Guides
-          </h1>
-          <p className="text-xs sm:text-sm text-purple-200/90 max-w-2xl mx-auto leading-relaxed font-medium">
-            Expert articles on RERA buyer rights, carpet area calculations, home loan strategies, and high-yield micro-market trends in India.
-          </p>
-        </div>
-
-        {/* Search Input Bar */}
-        <div className="relative max-w-lg mx-auto pt-2 z-10">
-          <Search className="w-4 h-4 text-purple-300 absolute left-4 top-5" />
-          <input
-            type="text"
-            placeholder="Search articles by topic, keyword, or guide..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 rounded-2xl bg-white/10 backdrop-blur-md border border-purple-400/30 text-xs text-white placeholder:text-purple-300/60 outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all shadow-inner"
-          />
-        </div>
-      </div>
-
-      {/* Categories Bar */}
+      {/* Categories Bar & Search */}
       <div className="flex items-center justify-center gap-2 flex-wrap pb-2">
         <button
           onClick={() => setSelectedCategory('all')}
