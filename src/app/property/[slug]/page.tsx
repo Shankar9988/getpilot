@@ -32,14 +32,44 @@ interface PropertyDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
+const KNOWN_PROPERTY_SLUGS = [
+  'cozy-1-bhk-prime-flat-delhi',
+  'luxury-3-bhk-skyline-residence-jaipur',
+  'premium-2-bhk-modern-apartment-mumbai',
+  'budget-friendly-2-bhk-residence-bengaluru',
+  'royal-4-bhk-independent-villa-hyderabad',
+  'prime-residential-plot-jaipur',
+  'ultra-luxury-4-bhk-sea-view-residence-with-private-deck-845474f7',
+  'exquisite-5-bhk-contemporary-designer-villa-with-private-pool-courtyard-df89202c',
+  'signature-5-bhk-sky-penthouse-overlooking-lush-green-golf-course-e70c0333',
+  'grade-a-plug-play-120-workstation-corporate-office-space-d8eb938e',
+  'chic-3-bhk-modern-furnished-apartment-near-100-feet-road-169f8e24',
+  'serene-4-bhk-independent-garden-villa-in-koregaon-park-prime-b68b645a',
+  'palatial-6-bhk-hilltop-mansion-with-private-elevator-home-cinema-db2a9211',
+  'prime-main-road-commercial-showroom-on-ashok-marg-c-scheme-d58ef2d4',
+  'prime-commercial-office-floor-in-cyber-gateway-it-corridor-dc0540c9',
+  'high-floor-3-bhk-luxury-apartment-with-sea-link-panorama-b1073df7',
+  'brand-new-4-bhk-independent-builder-floor-with-stilt-parking-72e0a10c',
+  'cozy-2-bhk-semi-furnished-flat-in-4th-block-koramangala-d444a46e',
+  'spacious-3-bhk-gated-society-flat-with-club-house-pool-1efda2c5',
+  'premium-3-bhk-furnished-flat-with-hill-view-in-baner-5a1b914f',
+];
+
 export async function generateStaticParams() {
   try {
-    const res = await propertiesApi.getAll({ per_page: 50 });
-    const slugs = (res.data || []).map((p) => ({ slug: p.slug }));
-    return slugs.length > 0 ? slugs : [{ slug: 'featured-residence' }];
+    const res = await fetch('https://getplot.in/api/v1/properties?per_page=100', {
+      headers: { Accept: 'application/json' },
+      cache: 'no-store',
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const slugs = (data.data || []).map((p: any) => ({ slug: p.slug }));
+      if (slugs.length > 0) return slugs;
+    }
   } catch {
-    return [{ slug: 'featured-residence' }];
+    // Fallback to static list
   }
+  return KNOWN_PROPERTY_SLUGS.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PropertyDetailPageProps): Promise<Metadata> {
@@ -156,11 +186,11 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
               <span className="px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-bold uppercase tracking-wider">
                 For {property.listing_type}
               </span>
-              <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold">
+              <span className="px-3 py-1 rounded-full bg-purple-50 text-purple-800 border border-purple-200 text-xs font-bold">
                 {property.property_type?.name || 'Property'}
               </span>
               {property.is_verified && (
-                <span className="px-3 py-1 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center gap-1">
+                <span className="px-3 py-1 rounded-full bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] text-white text-xs font-bold flex items-center gap-1 shadow-xs">
                   <ShieldCheck className="w-3.5 h-3.5" /> Verified Listing
                 </span>
               )}
@@ -178,7 +208,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
             {/* Location (Strictly Text Only - No Maps) */}
             <div className="flex items-center gap-2 text-sm text-slate-600">
-              <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
+              <MapPin className="w-4 h-4 text-[#9333ea] shrink-0" />
               <span className="font-medium">{locationFullText}</span>
             </div>
           </div>
@@ -210,7 +240,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs">
           <div className="space-y-1">
             <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
-              <Maximize2 className="w-3.5 h-3.5 text-emerald-600" />
+              <Maximize2 className="w-3.5 h-3.5 text-[#9333ea]" />
               <span>Carpet Area</span>
             </div>
             <div className="text-base font-extrabold text-slate-900">
@@ -220,7 +250,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
           <div className="space-y-1">
             <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
-              <BedDouble className="w-3.5 h-3.5 text-emerald-600" />
+              <BedDouble className="w-3.5 h-3.5 text-[#9333ea]" />
               <span>Bedrooms</span>
             </div>
             <div className="text-base font-extrabold text-slate-900">
@@ -230,7 +260,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
           <div className="space-y-1">
             <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
-              <Bath className="w-3.5 h-3.5 text-emerald-600" />
+              <Bath className="w-3.5 h-3.5 text-[#9333ea]" />
               <span>Bathrooms</span>
             </div>
             <div className="text-base font-extrabold text-slate-900">
@@ -240,7 +270,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
           <div className="space-y-1">
             <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
-              <Layers className="w-3.5 h-3.5 text-emerald-600" />
+              <Layers className="w-3.5 h-3.5 text-[#9333ea]" />
               <span>Floor Level</span>
             </div>
             <div className="text-base font-extrabold text-slate-900">
@@ -252,7 +282,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
           <div className="space-y-1">
             <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
-              <Building className="w-3.5 h-3.5 text-emerald-600" />
+              <Building className="w-3.5 h-3.5 text-[#9333ea]" />
               <span>Furnishing</span>
             </div>
             <div className="text-base font-extrabold text-slate-900 capitalize truncate">
@@ -262,7 +292,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
 
           <div className="space-y-1">
             <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold uppercase">
-              <Calendar className="w-3.5 h-3.5 text-emerald-600" />
+              <Calendar className="w-3.5 h-3.5 text-[#9333ea]" />
               <span>Possession</span>
             </div>
             <div className="text-base font-extrabold text-slate-900 capitalize truncate">
@@ -332,7 +362,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
             {property.seller && (
               <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
                 <div className="flex items-center gap-3.5">
-                  <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 font-bold text-lg flex items-center justify-center overflow-hidden shadow-xs shrink-0">
+                  <div className="w-14 h-14 rounded-2xl bg-purple-100 text-purple-900 font-extrabold text-lg flex items-center justify-center overflow-hidden shadow-xs shrink-0">
                     {property.seller.avatar ? (
                       <img src={property.seller.avatar} alt={property.seller.name} className="w-full h-full object-cover" />
                     ) : (
@@ -342,13 +372,13 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                   <div>
                     <div className="flex items-center gap-1.5">
                       <h3 className="text-base font-bold text-slate-900">{property.seller.name}</h3>
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 fill-emerald-100" />
+                      <CheckCircle2 className="w-4 h-4 text-[#9333ea] fill-purple-100" />
                     </div>
                     <p className="text-xs text-slate-500 capitalize">
                       Verified {property.seller.role === 'agent' ? 'Real Estate Advisor' : 'Property Owner'}
                     </p>
                     {property.seller.company_name && (
-                      <p className="text-xs font-semibold text-emerald-700 mt-0.5">
+                      <p className="text-xs font-semibold text-[#9333ea] mt-0.5">
                         {property.seller.company_name}
                       </p>
                     )}
@@ -365,7 +395,7 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
                   <div className="pt-2 flex flex-col gap-2">
                     <a
                       href={`tel:${property.seller.phone}`}
-                      className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-200 transition-colors"
+                      className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 text-xs font-extrabold border border-purple-200 transition-colors"
                     >
                       <Phone className="w-4 h-4" />
                       <span>Call {property.seller.phone}</span>

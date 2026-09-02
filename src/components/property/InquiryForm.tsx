@@ -99,8 +99,8 @@ export default function InquiryForm({
           <h3 className="text-lg font-extrabold text-slate-900 tracking-tight">
             Contact Seller
           </h3>
-          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-            <ShieldCheck className="w-3 h-3" /> Direct Lead
+          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-purple-900 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+            <ShieldCheck className="w-3 h-3 text-[#9333ea]" /> Direct Lead
           </span>
         </div>
         {sellerName && (
@@ -123,7 +123,7 @@ export default function InquiryForm({
               type="text"
               placeholder="e.g. Rahul Sharma"
               {...register('name')}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm text-slate-900 transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-[#9333ea] focus:ring-1 focus:ring-[#9333ea] text-sm text-slate-900 transition-colors"
             />
           </div>
           {errors.name && (
@@ -142,7 +142,7 @@ export default function InquiryForm({
               type="email"
               placeholder="e.g. rahul@example.com"
               {...register('email')}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm text-slate-900 transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-[#9333ea] focus:ring-1 focus:ring-[#9333ea] text-sm text-slate-900 transition-colors"
             />
           </div>
           {errors.email && (
@@ -161,7 +161,7 @@ export default function InquiryForm({
               type="tel"
               placeholder="e.g. +91 98765 43210"
               {...register('phone')}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm text-slate-900 transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-[#9333ea] focus:ring-1 focus:ring-[#9333ea] text-sm text-slate-900 transition-colors"
             />
           </div>
           {errors.phone && (
@@ -178,7 +178,7 @@ export default function InquiryForm({
             rows={3}
             placeholder="I would like more information on this property..."
             {...register('message')}
-            className="w-full p-3 rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-sm text-slate-900 transition-colors resize-none"
+            className="w-full p-3 rounded-xl border border-slate-200 focus:border-[#9333ea] focus:ring-1 focus:ring-[#9333ea] text-sm text-slate-900 transition-colors resize-none"
           />
           {errors.message && (
             <p className="text-[11px] text-rose-600 mt-1">{errors.message.message}</p>
@@ -189,7 +189,7 @@ export default function InquiryForm({
         <button
           type="submit"
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-sm shadow-md transition-all active:scale-[0.99] disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white font-extrabold text-sm shadow-md shadow-purple-500/25 transition-all active:scale-[0.99] disabled:opacity-50 cursor-pointer"
         >
           <Send className="w-4 h-4" />
           <span>{loading ? 'Sending Inquiry...' : 'Send Direct Inquiry'}</span>
