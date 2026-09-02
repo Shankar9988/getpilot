@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { propertiesApi } from '@/lib/api/properties';
 import PropertyGallery from '@/components/property/PropertyGallery';
 import PropertyAmenities from '@/components/property/PropertyAmenities';
-import VerificationSection from '@/components/property/VerificationSection';
+import MoreDetailsSection from '@/components/property/MoreDetailsSection';
 import InquiryForm from '@/components/property/InquiryForm';
 import PropertyCard from '@/components/property/PropertyCard';
 import PriceDisplay from '@/components/common/PriceDisplay';
@@ -343,16 +343,7 @@ export default function PropertyDetailClient({ slug }: PropertyDetailClientProps
         {/* Content Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200/80 shadow-xs space-y-4">
-              <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">
-                Property Overview & Description
-              </h2>
-              <div className="prose prose-slate max-w-none text-sm text-slate-600 leading-relaxed whitespace-pre-line">
-                {property.description}
-              </div>
-            </div>
-
-            <VerificationSection property={property} />
+            <MoreDetailsSection property={property} />
 
             <PropertyAmenities amenities={property.amenities || []} />
 
