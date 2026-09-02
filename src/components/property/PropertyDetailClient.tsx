@@ -345,40 +345,7 @@ export default function PropertyDetailClient({ slug }: PropertyDetailClientProps
           <div className="lg:col-span-2 space-y-8">
             <MoreDetailsSection property={property} />
 
-            <PropertyAmenities amenities={property.amenities || []} />
-
-            <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200/80 shadow-xs space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">
-                  Location & Neighborhood
-                </h2>
-                <span className="text-xs font-semibold text-slate-500">
-                  Address details verified
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                  <div className="text-xs font-bold text-slate-400 uppercase">Street Address</div>
-                  <div className="text-sm font-bold text-slate-900">{property.address}</div>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                  <div className="text-xs font-bold text-slate-400 uppercase">Locality / Sector</div>
-                  <div className="text-sm font-bold text-slate-900">{property.locality?.name || 'Prime Sector'}</div>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                  <div className="text-xs font-bold text-slate-400 uppercase">City & State</div>
-                  <div className="text-sm font-bold text-slate-900">{property.city?.name}, {property.state?.name}</div>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                  <div className="text-xs font-bold text-slate-400 uppercase">Postal Pincode</div>
-                  <div className="text-sm font-bold text-slate-900">{property.pincode}</div>
-                </div>
-              </div>
-            </div>
+            <PropertyAmenities amenities={property.amenities || []} propertyTitle={property.title} />
           </div>
 
           <div className="space-y-6">
