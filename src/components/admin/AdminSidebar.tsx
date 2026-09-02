@@ -14,7 +14,8 @@ import {
   ArrowLeft,
   ShieldAlert,
   Sliders,
-  Images
+  Images,
+  Crown
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
@@ -24,6 +25,7 @@ export default function AdminSidebar() {
 
   const links = [
     { label: 'Admin Overview', href: '/admin', icon: LayoutDashboard },
+    { label: 'Prime Memberships', href: '/admin/prime-memberships', icon: Crown },
     { label: 'Hero Slider CMS', href: '/admin/hero-sliders', icon: Images },
     { label: 'Property Approvals', href: '/admin/properties', icon: Building },
     { label: 'Verification Queue', href: '/admin/property-verification', icon: ShieldCheck },
