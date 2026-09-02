@@ -145,14 +145,14 @@ export default function ProfilePage() {
               value={formData.bio}
               onChange={handleChange}
               placeholder="Brief summary of your real estate advisory experience or property ownership details..."
-              className="w-full p-3 rounded-xl border border-slate-200 text-sm text-slate-900 focus:border-emerald-600 outline-none resize-none"
+              className="w-full p-3 rounded-xl border border-slate-200 text-sm text-slate-900 focus:border-[#9333ea] outline-none resize-none"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-slate-900 hover:bg-emerald-600 text-white font-bold text-sm shadow-md transition-colors disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white font-bold text-sm shadow-md transition-all disabled:opacity-50"
           >
             <CheckCircle2 className="w-4 h-4" />
             <span>{loading ? 'Saving Changes...' : 'Save Profile Changes'}</span>

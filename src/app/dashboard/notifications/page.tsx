@@ -50,7 +50,7 @@ export default function NotificationsPage() {
             onClick={handleMarkAllRead}
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-bold text-slate-700 transition-colors"
           >
-            <CheckCheck className="w-4 h-4 text-emerald-600" />
+            <CheckCheck className="w-4 h-4 text-[#9333ea]" />
             <span>Mark All as Read</span>
           </button>
         )}

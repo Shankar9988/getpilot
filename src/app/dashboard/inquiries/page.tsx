@@ -48,7 +48,7 @@ export default function InquiriesPage() {
   const list = activeTab === 'received' ? receivedInquiries : sentInquiries;
 
   const statusTags = {
-    new: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+    new: 'bg-purple-50 text-purple-900 border-purple-200',
     contacted: 'bg-sky-50 text-sky-800 border-sky-200',
     closed: 'bg-slate-100 text-slate-700 border-slate-200',
   };

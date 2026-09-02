@@ -53,7 +53,7 @@ export default function MyPropertiesPage() {
   ];
 
   const statusColors: Record<string, string> = {
-    published: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    published: 'bg-purple-50 text-purple-900 border-purple-200',
     pending: 'bg-amber-50 text-amber-700 border-amber-200',
     rejected: 'bg-rose-50 text-rose-700 border-rose-200',
     draft: 'bg-slate-100 text-slate-700 border-slate-200',
@@ -76,9 +76,9 @@ export default function MyPropertiesPage() {
 
         <Link
           href="/post-property"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-slate-900 hover:bg-emerald-600 text-white text-xs font-bold shadow-md transition-colors"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white text-xs font-bold shadow-md transition-all"
         >
-          <PlusCircle className="w-4 h-4 text-emerald-400" />
+          <PlusCircle className="w-4 h-4 text-white" />
           <span>Post New Property</span>
         </Link>
       </div>

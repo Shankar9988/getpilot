@@ -46,19 +46,19 @@ export default function DashboardOverviewPage() {
   const pendingProps = properties.filter((p) => p.status === 'pending').length;
 
   const metrics = [
-    { label: 'Total Listings', value: totalProps, icon: Home, color: 'text-slate-900', bg: 'bg-slate-100' },
-    { label: 'Published & Live', value: publishedProps, icon: CheckCircle2, color: 'text-emerald-700', bg: 'bg-emerald-50' },
+    { label: 'Total Listings', value: totalProps, icon: Home, color: 'text-purple-700', bg: 'bg-purple-50' },
+    { label: 'Published & Live', value: publishedProps, icon: CheckCircle2, color: 'text-purple-700', bg: 'bg-purple-50' },
     { label: 'Pending Review', value: pendingProps, icon: Clock, color: 'text-amber-700', bg: 'bg-amber-50' },
-    { label: 'Inquiries Received', value: inquiries.length, icon: MessageSquareText, color: 'text-sky-700', bg: 'bg-sky-50' },
+    { label: 'Inquiries Received', value: inquiries.length, icon: MessageSquareText, color: 'text-purple-700', bg: 'bg-purple-50' },
     { label: 'Saved Favorites', value: favCount, icon: Heart, color: 'text-rose-700', bg: 'bg-rose-50' },
   ];
 
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xl">
+      <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xl border border-purple-500/20">
         <div className="space-y-2">
-          <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-500/30">
+          <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-wider border border-purple-500/30">
             Account Dashboard
           </span>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
@@ -71,7 +71,7 @@ export default function DashboardOverviewPage() {
 
         <Link
           href="/post-property"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-emerald-950/40 transition-colors shrink-0"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#c026d3] hover:opacity-95 text-white text-xs sm:text-sm font-bold shadow-lg shadow-purple-950/40 transition-all shrink-0"
         >
           <PlusCircle className="w-4 h-4" />
           <span>Post New Property</span>
@@ -108,7 +108,7 @@ export default function DashboardOverviewPage() {
           </div>
           <Link
             href="/dashboard/properties"
-            className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"
+            className="text-xs font-bold text-[#9333ea] hover:underline flex items-center gap-1"
           >
             <span>View All</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -119,7 +119,7 @@ export default function DashboardOverviewPage() {
           <div className="divide-y divide-slate-100">
             {properties.slice(0, 5).map((prop) => {
               const statusColors: Record<string, string> = {
-                published: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                published: 'bg-purple-50 text-purple-900 border-purple-200',
                 pending: 'bg-amber-50 text-amber-700 border-amber-200',
                 rejected: 'bg-rose-50 text-rose-700 border-rose-200',
                 draft: 'bg-slate-100 text-slate-700 border-slate-200',
